@@ -1,4 +1,4 @@
-# [Waiboc](https://www.waiboc.com) Waiboc Chatbots
+# [Waiboc](https://www.waiboc.com) Chatbots
 
 Waiboc is intended to spread the use of Chatbot and AI to business of all kinds
 

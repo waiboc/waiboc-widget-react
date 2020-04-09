@@ -4,9 +4,12 @@ node_modules/*.*
 
 # production
 /build
+/lib
+lib/*.*
 /dist
 dist/*.html
 dist/*.js
 dist/*.css
 dist/*.map
 .cache
+.vscode
