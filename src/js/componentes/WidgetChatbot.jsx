@@ -10,7 +10,7 @@ import { fetchChatbot }                                          from '../api/ap
 import 'react-chat-widget/lib/styles.css' ;
 import '../../css/estiloChat.css' ;
 //
-import logoSVG                                                     from '../../img/waiboc.logo.svg';
+import logoSVG                                                   from '../../img/waiboc.logo.svg';
 let flagInputDisable = true ;
 //
 export class WidgetChatbot extends Component {
@@ -72,7 +72,6 @@ export class WidgetChatbot extends Component {
   customToggleInputDisabled(argFlag, argMM){
     try {
       //
-      console.log('....argMM: ',argMM,' argFlag: ',argFlag,' flagInputDisable: ',flagInputDisable) ;
       if ( flagInputDisable!=argFlag ){
         let tempTime = argFlag==true ? 500 : 200 ;
         setTimeout(() => {

@@ -37,11 +37,19 @@ export class WaibocReactWidget extends React.Component {
             flagValidBot: false,
             widgetVisible: true,
             idAgent: this.props.idAgent || false,
+            backEndServer: this.props.backEndServer ? this.props.backEndServer : false,
             idConversation: "",
             chatlog: [],
             options: ( this.props.options && this.props.options!=false ) ? this.props.options : {}
         } ;
-        console.log('\n\nWaibocReactWidget:: Initiating') ;
+        //
+        console.log('.....constructor:: (A) __URL_BACKEND__: ',__URL_BACKEND__) ;
+        console.log('....this.state.backEndServer: ',this.state.backEndServer) ;
+        if ( this.state.backEndServer!=false ){
+            __URL_BACKEND__ = this.state.backEndServer ;
+            console.log('.....constructor:: (BBBB) __URL_BACKEND__: ',__URL_BACKEND__) ;
+        }
+        //
     } ;
     //
     static getDerivedStateFromProps(newProps,state){
@@ -54,10 +62,8 @@ export class WaibocReactWidget extends React.Component {
             }
             let resultValidation = validateProps( newProps );
             if ( resultValidation.validProps==true ){
-                console.log('.....derived:: newState: ',newState) ;
                 return newState ;
             } else {
-                console.log('...resultValidation: ',resultValidation) ;
                 this.setState({ flagCached: true, flagValidBot: false }) ;
             }
         } else {
@@ -130,6 +136,7 @@ export class WaibocReactWidget extends React.Component {
                         ?   <WidgetChatbot
                                 configuration={{idAgent: this.state.idAgent,options: this.state.options}}
                                 widgetVisible={this.state.widgetVisible}
+                                backEndServer={this.state.backEndServer}
                                 onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}
                                 onWindowClose={this.props.onWindowClose ? this.props.onWindowClose : ()=>{console.log('....windowClose')}}
                                 conversation={{idConversation: this.state.idConversation,chatlog: this.state.chatlog}}

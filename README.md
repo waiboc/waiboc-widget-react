@@ -14,7 +14,7 @@ npm install --save  waiboc-widget-react
 
 
 ```js
-import WaibocReactWidget      from 'waiboc-widget-react' ;
+import { WaibocReactWidget }      from 'waiboc-widget-react' ;
 
 ```
 

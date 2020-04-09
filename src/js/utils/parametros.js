@@ -12,8 +12,8 @@ export const PARAMETROS   = {
         INACTIVE: 'INACTIVE'
     },
     BACKEND:{
-        API_CHATBOT: String(__URL_BACKEND__).trim() + '/chatbot/qry',
-        API_SESSION: String(__URL_BACKEND__).trim() + '/chatbot/session'
+        API_CHATBOT: '/chatbot/qry',
+        API_SESSION: '/chatbot/session'
     },
     SESSION:{
         ID_CONVERSATION:'WAIBOCIDCONVERSATION'

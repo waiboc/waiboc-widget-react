@@ -9,26 +9,15 @@ export { PARAMETROS } ;
 export const getChatbotInfo = (argQry) => {
     return new Promise(function(respOk,respRech){
         try {
-            /*
-            let tempOpt = {...opcionesPOST} ;
-            tempOpt.method = 'GET' ;
-            tempOpt.url    = PARAMETROS.BACKEND.API_SESSION + '?idChatbot='+argQry.idChatbot+'&idConversation='+argQry.idConversation ;
-            axios( tempOpt )
-                .then((respData)=>{
-                    respOk( respData.data ) ;
-                })
-                .catch((respErr)=>{
-                    respRech(respErr) ;
-                }) ;
-            */
+            //
             let getOpt  = {...opcionesPOST} ;
             getOpt.method = 'GET' ;
-            getOpt.url    = PARAMETROS.BACKEND.API_SESSION + '?idChatbot='+argQry.idChatbot+'&idConversation='+argQry.idConversation ;
             delete  getOpt.body ;
             //
-            let tempUrlBackend = String(__URL_BACKEND__).trim() + '/chatbot/chatlog' + obj2qryString(argQry)+'&campos=conversation,unsubscribe' ;
+            // let tempUrlBackend = String(__URL_BACKEND__).trim() + '/chatbot/chatlog' + obj2qryString(argQry)+'&campos=conversation,unsubscribe' ;
+            let tempUrlBackend = String(__URL_BACKEND__).trim() + PARAMETROS.BACKEND.API_SESSION + '?idChatbot='+argQry.idChatbot+'&idConversation='+argQry.idConversation ;
             //
-            fetch( tempUrlBackend ,getOpt)
+            fetch( tempUrlBackend , getOpt )
                     .then(function(response){
                         if (response.status>=200 & response.status<=400) {
                             return response.json() ;
@@ -119,7 +108,7 @@ export const fetchChatbot = (argOpt) => {
             let postOpt  = {...opcionesPOST} ;
             postOpt.body = JSON.stringify( argOpt ) ;
             //
-            let tempUrlBackend = String(__URL_BACKEND__).trim()+'/chatbot/mensaje' ;
+            let tempUrlBackend =  String(__URL_BACKEND__).trim()+'/chatbot/mensaje' ;
             // console.log('...tempUrlBackend: '+tempUrlBackend+';') ;
             fetch( tempUrlBackend ,postOpt)
                     .then(function(response){
