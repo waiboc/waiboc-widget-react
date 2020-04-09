@@ -5,6 +5,9 @@ import WaibocReactWidget           from "../lib/waiboc-react-widget" ;
 //
 console.log('...WaibocReactWidget: ',WaibocReactWidget) ;
 //
+/*
+*
+*/
 ReactDOM.render(
             <WaibocReactWidget
                     idAgent="5df990135940bb454c846a1e"
