@@ -4,7 +4,8 @@
 import React                                             from "react"         ;
 import ls                                                from 'local-storage' ;
 import { WidgetChatbot }                                 from "./js/componentes/WidgetChatbot" ;
-import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
+import { api }                                           from "./js/api/api" ;
+// import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
 //
 const validateProps = ( props ) => {
     try {
@@ -43,13 +44,6 @@ export class WaibocReactWidget extends React.Component {
             options: ( this.props.options && this.props.options!=false ) ? this.props.options : {}
         } ;
         //
-        console.log('.....constructor:: (A) __URL_BACKEND__: ',__URL_BACKEND__) ;
-        console.log('....this.state.backEndServer: ',this.state.backEndServer) ;
-        if ( this.state.backEndServer!=false ){
-            __URL_BACKEND__ = this.state.backEndServer ;
-            console.log('.....constructor:: (BBBB) __URL_BACKEND__: ',__URL_BACKEND__) ;
-        }
-        //
     } ;
     //
     static getDerivedStateFromProps(newProps,state){
@@ -78,6 +72,7 @@ export class WaibocReactWidget extends React.Component {
             let resultValidation = validateProps( this.props );
             if ( resultValidation.validProps==true ){
                 //
+                const { getChatbotInfo, getIdConversation, PARAMETROS } = api( {backEndServer: this.state.backEndServer} ) ;
                 getIdConversation(false, this.state.options.training)
                     .then((respIdConversation)=>{
                         return getChatbotInfo( {idChatbot: this.state.idAgent, idConversation: respIdConversation.id} ) ;

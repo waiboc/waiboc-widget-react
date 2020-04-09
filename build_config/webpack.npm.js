@@ -9,6 +9,7 @@ const BrotliPlugin                = require('brotli-webpack-plugin')      ;
 //
 let tempURLbackend = process.env.URL_BACKEND ? process.env.URL_BACKEND : "http://localhost:3001" ;
 if ( tempURLbackend.substr((tempURLbackend.length-1),1)=="/"){ tempURLbackend=tempURLbackend.substr(0,(tempURLbackend.length-1)); }
+tempURLbackend = String(tempURLbackend).trim() ;
 //
 console.log('\n\n AMBIENTE: '+process.env.AMBIENTE+';') ;
 console.log('tempURLbackend: '+tempURLbackend+'. \n\n') ;

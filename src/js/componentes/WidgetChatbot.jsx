@@ -5,7 +5,8 @@ import React, { Component }                                      from 'react'  ;
 import { Widget, addResponseMessage, renderCustomComponent }     from 'react-chat-widget'  ;
 import { toggleInputDisabled ,toggleMsgLoader, addUserMessage }  from 'react-chat-widget'  ;
 import { CustomReply  }                                          from './CustomReply'       ;
-import { fetchChatbot }                                          from '../api/api' ;
+// import { fetchChatbot }                                          from '../api/api' ;
+import { api }                                                   from '../api/api' ;
 //
 import 'react-chat-widget/lib/styles.css' ;
 import '../../css/estiloChat.css' ;
@@ -116,6 +117,8 @@ export class WidgetChatbot extends Component {
     /*
     *   __URL_BACKEND__: Es generada por webpack en momento del Build
     */
+    const { fetchChatbot } = api( {backEndServer: this.props.backEndServer} ) ;
+    //
     toggleMsgLoader();
     fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
       .then((respBot)=>{

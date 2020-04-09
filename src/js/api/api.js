@@ -3,10 +3,11 @@
 */
 import { PARAMETROS, opcionesPOST, obj2qryString }       from '../utils/parametros' ;
 import ls                                                from 'local-storage'    ;
-//
 export { PARAMETROS } ;
 //
-export const getChatbotInfo = (argQry) => {
+let BACKEND_URL = String(__URL_BACKEND__).trim() || "" ;
+//
+const getChatbotInfo = (argQry) => {
     return new Promise(function(respOk,respRech){
         try {
             //
@@ -37,7 +38,7 @@ export const getChatbotInfo = (argQry) => {
     }) ;
 } ;
 //
-export const fetchChatlog = (argQry) => {
+const fetchChatlog = (argQry) => {
     return new Promise(function(respOk,respRech){
         try {
             //
@@ -67,7 +68,7 @@ export const fetchChatlog = (argQry) => {
     }) ;
 } ;
 //
-export const getIdConversation = (argFlagChatbot=true,argFlagNewConversation=false) => {
+const getIdConversation = (argFlagChatbot=true,argFlagNewConversation=false) => {
     return new Promise(function(respData,respRech){
         try {
             let idConversation = (argFlagNewConversation==true) ? false : ( ls( PARAMETROS.SESSION.ID_CONVERSATION ) || false ) ;
@@ -101,7 +102,7 @@ export const getIdConversation = (argFlagChatbot=true,argFlagNewConversation=fal
     }) ;
 } ;
 //
-export const fetchChatbot = (argOpt) => {
+const fetchChatbot = (argOpt) => {
     return new Promise(function(respOk,respRech){
         try {
             //
@@ -128,5 +129,20 @@ export const fetchChatbot = (argOpt) => {
             respRech(errFC) ;
         }
     }) ;
+} ;
+//
+export const api = ( options ) => {
+    //
+    if ( options.backEndServer && options.backEndServer!=false ){
+        BACKEND_URL = String(options.backEndServer).trim() ;
+    }
+    //
+    return {
+        getChatbotInfo: getChatbotInfo,
+        fetchChatlog: fetchChatlog,
+        getIdConversation: getIdConversation,
+        fetchChatbot: fetchChatbot,
+        PARAMETROS: PARAMETROS
+    } ;
 } ;
 //
