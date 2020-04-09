@@ -14,9 +14,9 @@ console.log('\n\n AMBIENTE: '+process.env.AMBIENTE+';') ;
 console.log('tempURLbackend: '+tempURLbackend+'. \n\n') ;
 //
 module.exports = {
-  entry: './src/waiboc-react-widget.js',
+  entry: './src/index.js',
   output: {
-    filename: 'waiboc-react-widget.js',
+    filename: 'index.js',
     path: path.join(__dirname, '../lib'),
     library: 'waiboc-react-widget',
     libraryTarget: 'umd'

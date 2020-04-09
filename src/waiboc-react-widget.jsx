@@ -4,7 +4,6 @@
 import React                                             from "react"         ;
 import ls                                                from 'local-storage' ;
 import { WidgetChatbot }                                 from "./js/componentes/WidgetChatbot" ;
-import { CustomReply   }                                 from "./js/componentes/CustomReply"   ;
 import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
 //
 const validateProps = ( props ) => {
@@ -29,7 +28,7 @@ const validateProps = ( props ) => {
 } ;
 //
 // export { CustomReply } ;
-export default class WaibocReactWidget extends React.Component {
+export class WaibocReactWidget extends React.Component {
     //
     constructor(props){
         super(props) ;
