@@ -1,6 +1,6 @@
 {
   "name": "waiboc-widget-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Sebastian Andreoletti at sebaeze@gmail.com",
   "description": "Waiboc widget in react for chatbot",
   "main": "lib/index.js",
