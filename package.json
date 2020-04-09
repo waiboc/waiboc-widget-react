@@ -6,7 +6,7 @@
   "main": "lib/waiboc-react-widget.js",
   "scripts": {
     "build:npmDev":   "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
-    "build:npm":      "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
+    "build:npm":      "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
     "build:prod":     "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
     "prepublishOnly": "npm run build:npm" ,
     "postinstall":    "npm run build:npm" ,
