@@ -8,7 +8,6 @@ Waiboc is intended to spread the use of Chatbot and AI to business of all kinds
 ```bash
 npm install --save  waiboc-widget-react
 ```
-
 ## Usage
 
 1- Import the component into your project
