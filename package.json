@@ -5,15 +5,15 @@
   "description": "Waiboc widget in react for chatbot",
   "main": "lib/waiboc-react-widget.js",
   "scripts": {
-    "build:npmDev":   "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
-    "build:npm":      "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
-    "build:prod":     "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
-    "prepublishOnly": "npm run build:npm" ,
-    "postinstall":    "npm run build:npm" ,
-    "start":          "babel-node ./server/server.js",
-    "start:react":    "webpack-dev-server              --config ./build_config/webpack.react.dev.js",
+    "build:npmDev": "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
+    "build:npm": "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
+    "build:prod": "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
+    "prepublishOnly": "npm run build:npm",
+    "postinstall": "npm run build:npm",
+    "start": "babel-node ./server/server.js",
+    "start:react": "webpack-dev-server              --config ./build_config/webpack.react.dev.js",
     "test:react-widget": "webpack-dev-server         --config ./build_config/webpack.react.widget.js",
-    "test":              "babel-node ./test/conv"
+    "test": "babel-node ./test/conv"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
@@ -34,9 +34,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^3.0.1",
     "css-loader": "^3.0.0",
-    "echatbot-mongodb": "git+ssh://git@github.com/sebaeze/echatbot-mongodb.git",
     "file-loader": "^5.0.2",
-    "fs": "0.0.1-security",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-prefix-plugin": "^1.1.0",
     "image-webpack-loader": "^5.0.0",
@@ -67,7 +65,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sebaeze/waiboc-widget-react.git"
+    "url": "git+https://github.com/waiboc/waiboc-widget-react.git"
   },
   "keywords": [
     "widget",
@@ -76,7 +74,7 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sebaeze/waiboc-widget-react/issues"
+    "url": "https://github.com/waiboc/waiboc-widget-react/issues"
   },
-  "homepage": "https://github.com/sebaeze/waiboc-widget-react#readme"
+  "homepage": "https://github.com/waiboc/waiboc-widget-react#readme"
 }
