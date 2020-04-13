@@ -17,10 +17,11 @@ const validateProps = ( props ) => {
         if ( typeof props.idAgent=="undefined" ){
             flagValid.error.push( "Props 'idAgent' is missing" ) ;
         } ;
-        //
+        /*
         if ( typeof props.options=="undefined" ){
             flagValid.error.push( "Props 'options' is missing" ) ;
         } ;
+        */
         //
         return flagValid ;
     } catch(errVP){
