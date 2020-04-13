@@ -10,7 +10,7 @@ import { MessageCarousel }                     from '../componentes/messages/Mes
 const ReactRenderDynamic = (argProps) => {
     const subs = /(^.*)(\$(.*))/.exec(argProps.text);
     // console.log('....subs: ',subs) ;
-    let tempText = String(argProps.text).replace(/\n/g, "<br />") ;
+    let tempText = String(argProps.text).replace(/\n/g, "<br//>") ;
     /*
     return(
         <div>
@@ -18,7 +18,7 @@ const ReactRenderDynamic = (argProps) => {
         </div>
     ) ;
     */
-    return( <div dangerouslySetInnerHTML={{__html: tempText}}></div> ) ;
+    return( <div dangerouslySetInnerHTML={{__html: tempText }}></div> ) ;
 } ;
 //
 const parseText     = (argAnswer,tempStyle,argKey,argOnClickOpcion, argToggleInput) => {
@@ -27,14 +27,15 @@ const parseText     = (argAnswer,tempStyle,argKey,argOnClickOpcion, argToggleInp
         let tempText     = (argAnswer.text ? argAnswer.text : argAnswer.answer) || [""] ; ;
         let arrayAnswers = Array.isArray(tempText)==true ? tempText : new Array( tempText ) ;
         //
-        outDiv = <p style={{...tempStyle,marginBottom:'0'}} key={argKey} >
+        outDiv = <div style={{...tempStyle,marginBottom:'0',width:'100%'}} key={argKey} >
             {
                 arrayAnswers.map((eleTT,idxTT)=>{
-                    eleTT = eleTT.replace(/\n/g, "<br />") ;
+                    // eleTT = eleTT.replace(/\n/g, "<br//>") ;
+                    eleTT = <ReactRenderDynamic text={eleTT} />
                     return( <span key={idxTT} style={{whiteSpace: 'pre-wrap'}}  >{eleTT}</span>)
                 })
             }
-        </p>  ;
+        </div>  ;
         //
     } catch(errPT){
         console.dir(errPT) ;

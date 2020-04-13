@@ -19,13 +19,14 @@ export class WidgetChatbot extends Component {
     super(props) ;
     const { options }  = this.props.configuration ;
     this.state                 = {
-      pendientes: 1,
       flagInputDisable: true,
-      chatOpen: false,
+      chatOpen: this.props.chatOpen ? this.props.chatOpen : false,
       prevWidgetVisible: true,
       widgetVisible: true ,
+      pendientes: 1,
       idConversation: this.props.conversation.idConversation,
-      options: options ? {...options} : {botName: '',botSubtitle: '',senderPlaceholder: ''}
+      options: options ? {...options} : {botName: '',botSubtitle: '',senderPlaceholder: ''},
+      systemDefinedIntents: []
     } ;
     this.customToggleInputDisabled = this.customToggleInputDisabled.bind(this) ;
     this.handleNewUserMessage  = this.handleNewUserMessage.bind(this) ;
@@ -37,6 +38,16 @@ export class WidgetChatbot extends Component {
   //
   componentDidMount(){
     try {
+      /*
+      const { fetchChatbot } = api( {backEndServer: this.props.backEndServer} ) ;
+      fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
+      .then((respBot)=>{
+      })
+      .catch((errBot)=>{
+        console.log('....ERROR: handleNewUserMessage:: error: ',errBot) ;
+        toggleMsgLoader() ;
+      }) ;
+      */
       //
       /*
       if ( this.props.conversation.chatlog.length==0 ){
@@ -90,11 +101,16 @@ export class WidgetChatbot extends Component {
   //
   chatOpenedHandler(){
     if ( this.state.chatOpen!=true ){
-      this.handleNewUserMessage( 'ON_OPEN_WIDGET' ) ;
+      // console.log('....openn:: this.props.conversation: ',this.props.conversation) ;
+      /*
+      if ( !this.props.conversation.chatlog || this.props.conversation.chatlog.length==0 ){
+        this.handleNewUserMessage( 'ON_OPEN_WIDGET' ) ;
+      }
+      */
       if ( this.props.onWindowOpen ){
         this.props.onWindowOpen() ;
       }
-      this.setState({chatOpen: true, pendientes: 0}) ;
+      //this.setState({chatOpen: true, pendientes: 0}) ;
     }
   }
   //

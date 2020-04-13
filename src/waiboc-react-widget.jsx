@@ -89,8 +89,10 @@ export class WaibocReactWidget extends React.Component {
                         //
                         if ( respData.result.resultCode==PARAMETROS.RESULT_CODES.OK ){
                             //
+                            //console.log('....respData.result: ',respData.result) ;
                             newState.flagValidBot    = true ;
-                            newState.options.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
+                            // newState.options.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
+                            newState.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
                             // Sobreescribe valores de configuracion en DB, por valores indicados localmente
                             if ( this.props.options && this.props.options!=false ){
                                 for ( let keyConf in this.props.options ){
@@ -129,7 +131,10 @@ export class WaibocReactWidget extends React.Component {
         //
         let outRender = ( this.state.flagCached==true && this.state.flagValidBot==true )
                         ?   <WidgetChatbot
-                                configuration={{idAgent: this.state.idAgent,options: this.state.options}}
+                                configuration={{
+                                    idAgent: this.state.idAgent ,
+                                    options: this.state.options
+                                }}
                                 widgetVisible={this.state.widgetVisible}
                                 backEndServer={this.state.backEndServer}
                                 onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}

@@ -7,7 +7,7 @@ export { PARAMETROS } ;
 //
 export const api = ( options ) => {
     //
-    let BACKEND_URL = String(__URL_BACKEND__).trim() || "" ;
+    let BACKEND_URL = typeof __URL_BACKEND__!="undefined" ? String(__URL_BACKEND__).trim() : "https://www.waiboc.com:3001" ;
     if ( options.backEndServer && options.backEndServer!=false ){
         BACKEND_URL = String(options.backEndServer).trim() ;
     }

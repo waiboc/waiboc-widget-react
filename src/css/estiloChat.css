@@ -1,6 +1,10 @@
 /*
 *
 */
+:root {
+  --background-color-app: #002DFF ;
+}
+/*  */
 #WaibocWidgetMain .rcw-message {
   font-size: 17px !important ;
   transition: color 0.4s ease-in, background-color 0.4s ease-in; 
@@ -73,6 +77,22 @@
 #WaibocWidgetMain .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
   right: -310px !important ;
 }
+#WaibocWidgetMain .rcw-conversation-container .rcw-header {
+  background-color: var(--background-color-app) ;
+}
+#WaibocWidgetMain .rcw-conversation-container .rcw-header h4 {
+  font-size: 30px ;
+  line-height: 35px ;
+  font-weight: 600 ;
+}
+#WaibocWidgetMain .rcw-conversation-container .rcw-header span {
+  font-size: 20px ;
+  line-height: 25px ;
+  font-weight: 500 ;
+}
+#WaibocWidgetMain .rcw-launcher {
+  background-color: var(--background-color-app) ;
+}
 /*  */
 @media (max-width: 375px) {
   #WaibocWidgetMain .waiboc-msg-carousel {
@@ -80,6 +100,22 @@
   }
   #WaibocWidgetMain .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
     right: -260px !important ;
+  }
+  #WaibocWidgetMain form.rcw-sender input {
+    width: 80% ;
+    line-height: 22px ;
+    font-size: 18px ;
+  }
+  #WaibocWidgetMain form.rcw-sender button {
+    width: 15% ;
+    cursor: pointer ;
+  }
+  #WaibocWidgetMain .rcw-conversation-container .rcw-close-button {
+    background-color: inherit ;
+    border-radius: 50px;
+    border: 2px solid white;
+    padding: 7px 7px 7px 7px;
+    cursor: pointer ;
   }
 }
 /*  */
