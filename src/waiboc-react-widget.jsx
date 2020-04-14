@@ -49,7 +49,7 @@ export class WaibocReactWidget extends React.Component {
     //
     static getDerivedStateFromProps(newProps,state){
         //
-        if ( newProps.options!=false && JSON.stringify(newProps.options)!=JSON.stringify(state.options) || newProps.idAgent!=state.idAgent ){
+        if ( newProps.options && typeof newProps.options=="object" && JSON.stringify(newProps.options)!=JSON.stringify(state.options) || newProps.idAgent!=state.idAgent ){
             let newState = { idAgent: newProps.idAgent } ;
             if ( newProps.options!=false ){
                 newState.options = newProps.options || {} ;
