@@ -93,6 +93,9 @@
 #WaibocWidgetMain .rcw-launcher {
   background-color: var(--background-color-app) ;
 }
+.waiboc-chat-response-bot {
+  width: 90% ;
+}
 /*  */
 @media (max-width: 375px) {
   #WaibocWidgetMain .waiboc-msg-carousel {

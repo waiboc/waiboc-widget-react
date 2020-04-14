@@ -40,7 +40,7 @@ export class DivMessage extends React.Component {
         const { customStyle } = this.props ;
         //
         return(
-            <div style={{...customStyle}} >
+            <div className="waiboc-chat-response-bot" style={{...customStyle}}  >
                 <div>
                     { this.props.children }
                 </div>
