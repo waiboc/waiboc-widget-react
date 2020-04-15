@@ -42,6 +42,7 @@ export class WaibocReactWidget extends React.Component {
             backEndServer: this.props.backEndServer ? this.props.backEndServer : false,
             idConversation: "",
             chatlog: [],
+            chatEvents: [],
             options: ( this.props.options && this.props.options!=false ) ? this.props.options : {}
         } ;
         //
@@ -85,6 +86,7 @@ export class WaibocReactWidget extends React.Component {
                             flagValidBot: false,
                             idConversation: respData.result.idConversation || false,
                             chatlog: respData.result.chatlog || [] ,
+                            chatEvents: respData.result.chatEvents || [],
                             options: this.state.options || false
                         } ;
                         //
@@ -105,6 +107,12 @@ export class WaibocReactWidget extends React.Component {
                             }
                             //
                             ls( PARAMETROS.SESSION.ID_CONVERSATION, respData.result.idConversation ) ;
+                            /*
+                            if ( newState.chatlog && newState.chatlog.length==1 && newState.chatlog[0].userMessage=="" ){
+                                newState.chatlog = [] ;
+                            }
+                            console.log('....newState: ',newState);
+                            */
                             this.setState( newState ) ;
                             //
                         } else {
@@ -136,13 +144,14 @@ export class WaibocReactWidget extends React.Component {
                                     idAgent: this.state.idAgent ,
                                     options: this.state.options
                                 }}
+                                key="22"
                                 widgetVisible={this.state.widgetVisible}
                                 backEndServer={this.state.backEndServer}
                                 onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}
                                 onWindowClose={this.props.onWindowClose ? this.props.onWindowClose : ()=>{console.log('....windowClose')}}
-                                conversation={{idConversation: this.state.idConversation,chatlog: this.state.chatlog}}
+                                conversation={{idConversation: this.state.idConversation,chatlog: this.state.chatlog, chatEvents: this.state.chatEvents}}
                             />
-                        :   <div></div> ;
+                        :   <div key="11" ></div> ;
         //
         return ( outRender ) ;
         //

@@ -2,25 +2,28 @@
 *
 */
 import React, { Component }                                      from 'react'  ;
-import { Widget, addResponseMessage, renderCustomComponent }     from 'react-chat-widget'  ;
-import { toggleInputDisabled ,toggleMsgLoader, addUserMessage }  from 'react-chat-widget'  ;
-import { CustomReply  }                                          from './CustomReply'       ;
+import { Button }                                                from 'antd'   ;
+import { Widget, addResponseMessage, renderCustomComponent }     from 'react-chat-widget'    ;
+import { toggleInputDisabled ,toggleMsgLoader, addUserMessage }  from 'react-chat-widget'    ;
+import { CustomReply  }                                          from './CustomReply'        ;
+import { ButtonLauncher }                                        from './button/ButtonLauncher' ;
 // import { fetchChatbot }                                          from '../api/api' ;
 import { api }                                                   from '../api/api' ;
 //
 import 'react-chat-widget/lib/styles.css' ;
 import '../../css/estiloChat.css' ;
 //
-import logoSVG                                                   from '../../img/waiboc.logo.svg';
-let flagInputDisable = true ;
+//import logoSVG                                                   from '../../img/waiboc.logo.svg';
+//import WaibocIcon                 from '../../img/waiboc.icon.svg' ;
 //
+let flagInputDisable = true ;
 export class WidgetChatbot extends Component {
   constructor(props) {
     super(props) ;
     const { options }  = this.props.configuration ;
     this.state                 = {
       flagInputDisable: true,
-      chatOpen: this.props.chatOpen ? this.props.chatOpen : false,
+      chatOpen: false,
       prevWidgetVisible: true,
       widgetVisible: true ,
       pendientes: 1,
@@ -34,6 +37,7 @@ export class WidgetChatbot extends Component {
     this.chatOpenedHandler     = this.chatOpenedHandler.bind(this) ;
     this.chatClosedHandler     = this.chatClosedHandler.bind(this) ;
     this.mensajePrevio         = { input: { text: "" } } ;
+    this.handleLauncher          = this.handleLauncher.bind(this) ;
   }
   //
   componentDidMount(){
@@ -96,6 +100,51 @@ export class WidgetChatbot extends Component {
       //
     } catch(errCTI){
       console.log('..ERROR: CustomToggleInput:: error: ',errCTI) ;
+    }
+  }
+  //
+  handleLauncher(argLauncher){
+    try {
+      argLauncher() ;
+      if ( this.state.chatOpen==false ){
+        /*
+        if ( this.props.onWindowOpen ){
+           this.props.onWindowOpen() ;
+        }
+        */
+        if ( this.props.conversation.chatlog.length==0 ){
+          // this.handleNewUserMessage( 'WELCOME.INITIAL' ) ;
+          toggleMsgLoader() ;
+            /*
+          fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
+            .then((respBot)=>{
+          */
+          let onOpenChatAnswer = this.props.conversation.chatEvents.find((elemEvent)=>{
+                                  return elemEvent.name=="ON_OPEN_WIDGET"
+                                }) ;
+          console.log('...onOpenChatAnswer: ',onOpenChatAnswer) ;
+          if ( onOpenChatAnswer ){
+            renderCustomComponent( CustomReply.bind(this) ,
+            {
+              datos: {answer:{output:{...onOpenChatAnswer.answer}}} ,
+              onClickOpcion:this.onClickOpcion.bind(this) ,
+              windowStyle: this.props.configuration.windowStyle,
+              addMsg: addResponseMessage.bind(this) ,
+              onOpen: this.chatOpenedHandler ,
+              onClose: this.chatClosedHandler ,
+              toggleInput: this.customToggleInputDisabled.bind(this)
+            }, false ) ;
+          } else {
+            console.log('....ERROR:: No existe Evento "ON_OPEN_WIDGET" ') ;
+          }
+          toggleMsgLoader();
+          //
+        }
+        this.setState({ chatOpen: true }) ;
+      }
+      //
+    } catch(errHT){
+      console.log('...ERROR: ',errHT) ;
     }
   }
   //
@@ -182,7 +231,10 @@ export class WidgetChatbot extends Component {
   render() {
     //
     return (
-      <div id="WaibocWidgetMain" >
+      //
+      // effectType={this.state.options.effectType}
+      //
+      <div id="waiboc-widget-main" >
           <Widget
             handleNewUserMessage={this.handleNewUserMessage}
             title={this.state.options.nameToDisplay ? this.state.options.nameToDisplay : this.state.options.botName}
@@ -191,7 +243,15 @@ export class WidgetChatbot extends Component {
             showCloseButton={true}
             badge={this.state.pendientes}
             autofocus={true}
-            profileAvatar={logoSVG}
+            //profileAvatar={logoSVG}
+            launcher={ (launcher) => {
+                return (
+                    <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >
+                      <ButtonLauncher effectIntervalTime={2000} imageLauncher={this.state.options.imageLauncher ? this.state.options.imageLauncher : "../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png"}  />
+                    </a>
+                  )
+                }
+            }
           />
       </div>
       )

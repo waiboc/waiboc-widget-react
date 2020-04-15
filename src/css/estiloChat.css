@@ -5,29 +5,29 @@
   --background-color-app: #002DFF ;
 }
 /*  */
-#WaibocWidgetMain .rcw-message {
+#waiboc-widget-main .rcw-message {
   font-size: 17px !important ;
   transition: color 0.4s ease-in, background-color 0.4s ease-in; 
 }
-#WaibocWidgetMain .rcw-new-message:disabled {
+#waiboc-widget-main .rcw-new-message:disabled {
   background: #dddddd !important ;
 }
-#WaibocWidgetMain .rcw-send {
+#waiboc-widget-main .rcw-send {
   background: #f4f7f9 !important ;
   border: 0 !important ;
 }
-#WaibocWidgetMain .rcw-send .rcw-send-icon {
+#waiboc-widget-main .rcw-send .rcw-send-icon {
   height: 25px !important ;
 }
 /*    */
-#WaibocWidgetMain .rcw-widget-container {
+#waiboc-widget-main .rcw-widget-container {
     z-index: 9999 !important ;
     max-width: 450px !important ;
 }
-#WaibocWidgetMain .rcw-open-launcher:hover {
+#waiboc-widget-main .rcw-open-launcher:hover {
   cursor: pointer !important ;
 }
-#WaibocWidgetMain .rcw-message .ant-tag {
+#waiboc-widget-main .rcw-message .ant-tag {
   transition: box-shadow 0.6s !important ;
   font-size: 18px !important;
   font-weight: 500 !important;
@@ -35,32 +35,32 @@
   border-radius: 9px !important;
   cursor: pointer !important ;
 }
-#WaibocWidgetMain .rcw-message .ant-tag:hover {
+#waiboc-widget-main .rcw-message .ant-tag:hover {
   box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important ;
   /* border-bottom: 0.5px dotted grey !important ; */
 }
 /*  */
 @media (max-width: 375px) {
-  #WaibocWidgetMain .rcw-widget-container {
+  #waiboc-widget-main .rcw-widget-container {
     max-width: 375px !important ;
   }
 }
 /*  */
-#WaibocWidgetMain .ant-carousel .slick-slide {
+#waiboc-widget-main .ant-carousel .slick-slide {
   text-align: center !important ;
   height: 160px !important ;
   line-height: 160px !important ;
   background: #364d79 !important ;
   overflow: hidden !important ;
 }
-#WaibocWidgetMain .ant-carousel .slick-slide h3 {
+#waiboc-widget-main .ant-carousel .slick-slide h3 {
   color: #fff !important ;
 }
 /*  */
-#WaibocWidgetMain .waiboc-msg-carousel {
+#waiboc-widget-main .waiboc-msg-carousel {
   width: 380px ;
 }
-#WaibocWidgetMain .waiboc-msg-carousel .waiboc-arrow {
+#waiboc-widget-main .waiboc-msg-carousel .waiboc-arrow {
   z-index: 9999 ;
   font-size: 30px ;
   position: relative ;
@@ -68,52 +68,93 @@
   opacity: 0.5 ;
   top: 90px !important ;
 }
-#WaibocWidgetMain .waiboc-msg-carousel .waiboc-arrow:hover {
+#waiboc-widget-main .waiboc-msg-carousel .waiboc-arrow:hover {
   opacity: 1 !important ;
 }
-#WaibocWidgetMain .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-left {
+#waiboc-widget-main .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-left {
   left: 10px  !important ;
 }
-#WaibocWidgetMain .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
+#waiboc-widget-main .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
   right: -310px !important ;
 }
-#WaibocWidgetMain .rcw-conversation-container .rcw-header {
+#waiboc-widget-main .rcw-conversation-container .rcw-header {
   background-color: var(--background-color-app) ;
 }
-#WaibocWidgetMain .rcw-conversation-container .rcw-header h4 {
+#waiboc-widget-main .rcw-conversation-container .rcw-header h4 {
   font-size: 30px ;
   line-height: 35px ;
   font-weight: 600 ;
 }
-#WaibocWidgetMain .rcw-conversation-container .rcw-header span {
+#waiboc-widget-main .rcw-conversation-container .rcw-header span {
   font-size: 20px ;
   line-height: 25px ;
   font-weight: 500 ;
 }
-#WaibocWidgetMain .rcw-launcher {
+#waiboc-widget-main .rcw-launcher {
   background-color: var(--background-color-app) ;
 }
 .waiboc-chat-response-bot {
-  width: 90% ;
+  max-width: 90% ;
+}
+.waiboc-launcher {
+  transition: box-shadow 0.6s !important ;
+  background-color: transparent ;
+  border: none ;
+}
+/*
+.waiboc-launcher:hover {
+  box-shadow: 0 0 5px #002DFF ;
+}
+*/
+.waiboc-btn-launcher {
+  width: 100% ;
+}
+.waiboc-btn-launcher button {
+  transition: all 0.6s !important ;
+  width: 70px ;
+  height: 70px ;
+  border-radius: 50px ;
+  cursor: pointer ;
+  margin-top: 10px ;
+  float: right ;
+  right: 0 ;
+  border: none ;
+  background-color: transparent ;
+  padding: 0 ;
+  /* border: 2px solid #002DFF ; */
+  /* padding: 10px 10px 10px 10px ; */
+}
+.waiboc-btn-launcher button:hover {
+  /* box-shadow: 0 0 3px gray; */
+  box-shadow: 1px 0px 13px 11px #BFC0C1;;
+  /* border: 2px solid #002DFF ; */
+  /*
+  border-bottom-color: #002DFF ;
+  border-right-color: #002DFF ;
+  */
+}
+.waiboc-btn-launcher img {
+  border: none ;
+  background-color: transparent ;
 }
 /*  */
 @media (max-width: 375px) {
-  #WaibocWidgetMain .waiboc-msg-carousel {
+  #waiboc-widget-main .waiboc-msg-carousel {
     width: 330px ;
   }
-  #WaibocWidgetMain .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
+  #waiboc-widget-main .waiboc-msg-carousel i.waiboc-arrow.waiboc-arrow-right {
     right: -260px !important ;
   }
-  #WaibocWidgetMain form.rcw-sender input {
+  #waiboc-widget-main form.rcw-sender input {
     width: 80% ;
     line-height: 22px ;
     font-size: 18px ;
   }
-  #WaibocWidgetMain form.rcw-sender button {
+  #waiboc-widget-main form.rcw-sender button {
     width: 15% ;
     cursor: pointer ;
   }
-  #WaibocWidgetMain .rcw-conversation-container .rcw-close-button {
+  #waiboc-widget-main .rcw-conversation-container .rcw-close-button {
     background-color: inherit ;
     border-radius: 50px;
     border: 2px solid white;
