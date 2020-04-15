@@ -5,7 +5,7 @@ import React, { Suspense }      from 'react' ;
 //import ReactReveal              from 'react-reveal' ;
 import HeadShake                from 'react-reveal/HeadShake' ;
 // import { ImageLoader }          from '../image/ImageLoader' ;
-import WaibocLogo               from '../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png' ;
+// import WaibocLogo               from '../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png' ;
 /*
 const getComponent = Component => props => {
     console.log('....get:: Component: ',Component,' props: ',props) ;
@@ -101,7 +101,7 @@ export class ButtonLauncher extends React.Component {
         return(
             <button {...this.propsButton} onClick={this.onClickBtn} >
                 <HeadShake spy={this.state.interval} >
-                <img src={WaibocLogo} style={{width:'100%',height:'auto'}} />
+                    <img src={require('../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png')} style={{width:'100%',height:'auto'}} />
                 </HeadShake>
             </button>
         )

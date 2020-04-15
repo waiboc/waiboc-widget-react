@@ -40,17 +40,22 @@ module.exports = {
         loader: 'file-loader?name=/[name].[ext]',
      },
      {
+      test: /\.(jpg|jpeg|png)$/,
+      use: {
+       loader: 'url-loader'
+      }
+     }
+     /*
+     {
       test: /\.(gif|png|jpe?g|svg)$/i,
       use: [
-        'file-loader',
-        {
+        'file-loader', {
           loader: 'image-webpack-loader',
           options: {
             mozjpeg: {
               progressive: true,
               quality: 65
             },
-            // optipng.enabled: false will disable optipng
             optipng: {
               enabled: false,
             },
@@ -61,7 +66,6 @@ module.exports = {
             gifsicle: {
               interlaced: false,
             },
-            // the webp option will enable WEBP
             webp: {
               quality: 75
             }
@@ -69,6 +73,7 @@ module.exports = {
         },
       ]
      }
+     */
     ]
   },
   resolve: {
