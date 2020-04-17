@@ -23,6 +23,7 @@ export class WidgetChatbot extends Component {
     const { options }  = this.props.configuration ;
     this.state                 = {
       flagInputDisable: true,
+      chatInitiated: false,
       chatOpen: false,
       prevWidgetVisible: true,
       widgetVisible: true ,
@@ -42,22 +43,7 @@ export class WidgetChatbot extends Component {
   //
   componentDidMount(){
     try {
-      /*
-      const { fetchChatbot } = api( {backEndServer: this.props.backEndServer} ) ;
-      fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
-      .then((respBot)=>{
-      })
-      .catch((errBot)=>{
-        console.log('....ERROR: handleNewUserMessage:: error: ',errBot) ;
-        toggleMsgLoader() ;
-      }) ;
-      */
       //
-      /*
-      if ( this.props.conversation.chatlog.length==0 ){
-        this.handleNewUserMessage( 'WELCOME.INITIAL' ) ;
-      }
-      */
       toggleMsgLoader();
       let tempChatlog = this.props.conversation.chatlog.sort( (a,b)=>{ return a.ts.localeCompare(b.ts); }) ;
       for (let icl=0; icl<tempChatlog.length; icl++){
@@ -106,23 +92,11 @@ export class WidgetChatbot extends Component {
   handleLauncher(argLauncher){
     try {
       argLauncher() ;
-      if ( this.state.chatOpen==false ){
-        /*
-        if ( this.props.onWindowOpen ){
-           this.props.onWindowOpen() ;
-        }
-        */
+      if ( this.state.chatInitiated==false ){
         if ( this.props.conversation.chatlog.length==0 ){
-          // this.handleNewUserMessage( 'WELCOME.INITIAL' ) ;
           toggleMsgLoader() ;
-            /*
-          fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
-            .then((respBot)=>{
-          */
-          let onOpenChatAnswer = this.props.conversation.chatEvents.find((elemEvent)=>{
-                                  return elemEvent.name=="ON_OPEN_WIDGET"
-                                }) ;
-          console.log('...onOpenChatAnswer: ',onOpenChatAnswer) ;
+          let onOpenChatAnswer = this.props.conversation.chatEvents.find((elemEvent)=>{ return elemEvent.name=="ON_OPEN_WIDGET" }) ;
+          //console.log('...onOpenChatAnswer: ',onOpenChatAnswer) ;
           if ( onOpenChatAnswer ){
             renderCustomComponent( CustomReply.bind(this) ,
             {
@@ -138,9 +112,8 @@ export class WidgetChatbot extends Component {
             console.log('....ERROR:: No existe Evento "ON_OPEN_WIDGET" ') ;
           }
           toggleMsgLoader();
-          //
         }
-        this.setState({ chatOpen: true }) ;
+        this.setState({ chatInitiated: true }) ;
       }
       //
     } catch(errHT){
@@ -156,10 +129,12 @@ export class WidgetChatbot extends Component {
         this.handleNewUserMessage( 'ON_OPEN_WIDGET' ) ;
       }
       */
+      /*
       if ( this.props.onWindowOpen ){
         this.props.onWindowOpen() ;
       }
-      //this.setState({chatOpen: true, pendientes: 0}) ;
+      */
+      this.setState({chatOpen: true, pendientes: 0}) ;
     }
   }
   //
