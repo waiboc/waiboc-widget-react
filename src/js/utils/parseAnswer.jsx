@@ -110,13 +110,16 @@ const parseJson     = (argAnswer) => {
 const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,argToggleInput) => {
     let outEle = false ;
     try {
-        if ( argAnswer.options.length>0 ){
+        if ( argAnswer.options && argAnswer.options.length>0 ){
             if ( typeof argToggleInput=="function" ){
                 argToggleInput(false,'desde define options: ') ;
             } else {
                 console.log('...no es funcion, que es?? argToggleInput:: ',argToggleInput) ;
             }
+        } else {
+            return <div></div> ;
         }
+        //
         outEle =    <div >
                         <span>{<ReactRenderDynamic text={argAnswer.text} />}</span>
                         {
@@ -192,6 +195,7 @@ export const parseAnswer = ( argParams ) => {
             arrayOut.push(
                 <div key={indArr} >
                     { parser( answerElem, customStyle, indArr, onClickOpcion, toggleInput ) }
+                    { parseOption( answerElem, customStyle, indArr, onClickOpcion, toggleInput ) }
                     { parseFiles( answerElem, indArr ) }
                 </div>
             ) ;
