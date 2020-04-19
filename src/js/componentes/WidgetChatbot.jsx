@@ -16,13 +16,13 @@ import '../../css/estiloChat.css' ;
 //import logoSVG                                                   from '../../img/waiboc.logo.svg';
 //import WaibocIcon                 from '../../img/waiboc.icon.svg' ;
 //
-let flagInputDisable = true ;
+// let flagInputDisable = true ;
 export class WidgetChatbot extends Component {
   constructor(props) {
     super(props) ;
     const { options }  = this.props.configuration ;
     this.state                 = {
-      flagInputDisable: true,
+      // flagInputDisable: true,
       chatInitiated: false,
       chatOpen: false,
       prevWidgetVisible: true,
@@ -32,7 +32,9 @@ export class WidgetChatbot extends Component {
       options: options ? {...options} : {botName: '',botSubtitle: '',senderPlaceholder: ''},
       systemDefinedIntents: []
     } ;
-    this.customToggleInputDisabled = this.customToggleInputDisabled.bind(this) ;
+    this.refInput              = false ;
+    this.refWidget             = false ;
+    this.setInputEditable      = this.setInputEditable.bind(this) ;
     this.handleNewUserMessage  = this.handleNewUserMessage.bind(this) ;
     this.onClickOpcion         = this.onClickOpcion.bind(this) ;
     this.chatOpenedHandler     = this.chatOpenedHandler.bind(this) ;
@@ -41,9 +43,26 @@ export class WidgetChatbot extends Component {
     this.handleLauncher          = this.handleLauncher.bind(this) ;
   }
   //
+  static getDerivedStateFromProps(newProps, state) {
+    let newStateProps = {} ;
+    if ( newProps.widgetVisible!=state.widgetVisible ){
+      newStateProps["prevWidgetVisible"] = state.widgetVisible ;
+      newStateProps["widgetVisible"]     = newProps.widgetVisible ;
+    }
+    if ( newProps.options && JSON.stringify(newProps.options)!=JSON.stringify(state.options) ){
+      newStateProps["options"] = newProps.options ;
+    }
+    if ( Object.keys(newStateProps).length>0 ){
+      return { newStateProps } ;
+    } else {
+      return false ;
+    }
+  }
+  //
   componentDidMount(){
     try {
       //
+      console.log('\n\n ....********* componentDidMount:: ') ;
       toggleMsgLoader();
       let tempChatlog = this.props.conversation.chatlog.sort( (a,b)=>{ return a.ts.localeCompare(b.ts); }) ;
       for (let icl=0; icl<tempChatlog.length; icl++){
@@ -61,27 +80,45 @@ export class WidgetChatbot extends Component {
                                 windowStyle: this.props.configuration.windowStyle,
                                 onOpen: this.chatOpenedHandler ,
                                 onClose: this.chatClosedHandler,
-                                // ,toggleInput: toggleInputDisabled.bind(this)
+                                toggleInput: ()=>{} //toggleInputDisabled.bind(this)
                               }, false ) ;
         }
       }
       toggleMsgLoader() ;
+      console.log('\n\n ....********* FINT         componentDidMount:: ') ;
       //
     } catch(errDM){
       console.dir(errDM) ;
     }
   }
   //
-  customToggleInputDisabled(argFlag, argMM){
+  setInputEditable(argFlag,argMM){
     try {
       //
-      if ( flagInputDisable!=argFlag ){
-        let tempTime = argFlag==true ? 500 : 200 ;
-        setTimeout(() => {
-          toggleInputDisabled() ;
-          flagInputDisable = argFlag ;
-        }, tempTime );
-        // this.setState({flagInputDisable: argFlag}) ;
+      //console.log('....state: ',this.state.flagInputDisable,' arg: ',argFlag) ;
+      // this.refInput
+      if ( this.refInput==false &&  this.refWidget!=false ){
+        this.refInput = this.refWidget.querySelectorAll('form.rcw-sender input.rcw-new-message') ;
+        if ( this.refInput.length>0 ){ this.refInput=this.refInput[0]; }
+      }
+      //
+      let flagToggleInput = false ;
+      if ( this.refInput.disabled==true && argFlag==true ){
+        flagToggleInput = true ;
+      } else {
+        if ( this.refInput.disabled==false && argFlag==false ){
+          flagToggleInput = true ;
+        }
+      }
+      console.log('... (A) argMM: ',argMM,' refInput.disabled: ',this.refInput.disabled,' argFlag: ',argFlag,' flagToggleInput: ',flagToggleInput) ;
+      //
+      //if ( this.state.flagInputDisable!=argFlag ){
+      if ( flagToggleInput==true ){
+        // toggleInputDisabled() ;
+        this.refInput.disabled = !this.refInput.disabled ;
+        // this.refInput.setAttribute("disabled", (!this.refInput.disabled) ) ;
+        console.log('... (BBBB) argMM: ',argMM,' refInput.disabled: ',this.refInput.disabled,' argFlag: ',argFlag) ;
+          // this.setState({ flagInputDisable: argFlag }) ;
       }
       //
     } catch(errCTI){
@@ -98,6 +135,7 @@ export class WidgetChatbot extends Component {
           let onOpenChatAnswer = this.props.conversation.chatEvents.find((elemEvent)=>{ return elemEvent.name=="ON_OPEN_WIDGET" }) ;
           //console.log('...onOpenChatAnswer: ',onOpenChatAnswer) ;
           if ( onOpenChatAnswer ){
+            console.log('....como si reien abriera el chat') ;;
             renderCustomComponent( CustomReply.bind(this) ,
             {
               datos: {answer:{output:{...onOpenChatAnswer.answer}}} ,
@@ -106,7 +144,8 @@ export class WidgetChatbot extends Component {
               addMsg: addResponseMessage.bind(this) ,
               onOpen: this.chatOpenedHandler ,
               onClose: this.chatClosedHandler ,
-              toggleInput: this.customToggleInputDisabled.bind(this)
+              // setInputEditable: this.setInputEditable.bind(this)
+              setInputEditable: ()=>{/* nada */}
             }, false ) ;
           } else {
             console.log('....ERROR:: No existe Evento "ON_OPEN_WIDGET" ') ;
@@ -176,8 +215,8 @@ export class WidgetChatbot extends Component {
                       addMsg:addResponseMessage.bind(this) ,
                       onOpen: this.chatOpenedHandler ,
                       onClose: this.chatClosedHandler ,
-                      // toggleInput: toggleInputDisabled
-                      toggleInput: this.customToggleInputDisabled.bind(this)
+                      // setInputEditable: this.setInputEditable.bind(this)
+                      setInputEditable: ()=>{/* nada */}
                     }, false ) ;
           toggleMsgLoader();
       })
@@ -188,29 +227,19 @@ export class WidgetChatbot extends Component {
     //
   }
   //
-  static getDerivedStateFromProps(newProps, state) {
-    let newStateProps = {} ;
-    if ( newProps.widgetVisible!=state.widgetVisible ){
-      newStateProps["prevWidgetVisible"] = state.widgetVisible ;
-      newStateProps["widgetVisible"]     = newProps.widgetVisible ;
-    }
-    if ( newProps.options && JSON.stringify(newProps.options)!=JSON.stringify(state.options) ){
-      newStateProps["options"] = newProps.options ;
-    }
-    if ( Object.keys(newStateProps).length>0 ){
-      return { newStateProps } ;
-    } else {
-      return false ;
-    }
-  }
-  //
   render() {
     //
     return (
       //
       // effectType={this.state.options.effectType}
       //
-      <div id="waiboc-widget-main" >
+      <div   id="waiboc-widget-main"
+              ref={
+                (argRef)=>{
+                  if ( argRef && this.refWidget==false ){ this.refWidget=argRef; }
+                }
+              }
+      >
           <Widget
             handleNewUserMessage={this.handleNewUserMessage}
             title={this.state.options.nameToDisplay ? this.state.options.nameToDisplay : this.state.options.botName}
@@ -219,7 +248,6 @@ export class WidgetChatbot extends Component {
             showCloseButton={true}
             badge={this.state.pendientes}
             autofocus={true}
-            //profileAvatar={logoSVG}
             launcher={ (launcher) => {
                 return (
                     <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >

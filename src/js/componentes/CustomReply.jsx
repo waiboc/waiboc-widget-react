@@ -48,8 +48,7 @@ export class CustomReply extends React.Component {
             let tempStyle = messageResponseStyle ? messageResponseStyle : {} ;
             let tempTs    = moment( (timestamp ? timestamp : new Date()) ).tz( userTimeZone ).fromNow() ;
             //
-            // let outEle = parseAnswer( elemOpt, tempStyle, (this.props.toggleInput ? this.props.toggleInput : null) ) ;
-            let outEle = parseAnswer( {answer: elemOpt, customStyle: tempStyle, onClickOpcion: this.props.onClickOpcion ,toggleInput:(this.props.toggleInput ? this.props.toggleInput : null)} ) ;
+            let outEle = parseAnswer( {answer: elemOpt, customStyle: tempStyle, onClickOpcion: this.props.onClickOpcion ,setInputEditable:(this.props.setInputEditable ? this.props.setInputEditable : null)} ) ;
             //
             return(
                 <DivMessage>

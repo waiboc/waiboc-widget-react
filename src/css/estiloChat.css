@@ -7,7 +7,10 @@
 /*  */
 #waiboc-widget-main .rcw-message {
   font-size: 17px !important ;
-  transition: color 0.4s ease-in, background-color 0.4s ease-in; 
+  transition: color 0.4s ease-in, background-color 0.4s ease-in ;
+}
+#waiboc-widget-main .rcw-new-message {
+  transition: background 1s ease;
 }
 #waiboc-widget-main .rcw-new-message:disabled {
   background: #dddddd !important ;

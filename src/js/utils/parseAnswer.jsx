@@ -21,7 +21,7 @@ const ReactRenderDynamic = (argProps) => {
     return( <div dangerouslySetInnerHTML={{__html: tempText }}></div> ) ;
 } ;
 //
-const parseText     = (argAnswer,tempStyle,argKey,argOnClickOpcion, argToggleInput) => {
+const parseText     = (argAnswer,tempStyle,argKey,argOnClickOpcion, setInputEditable) => {
     let outDiv = false ;
     try {
         let tempText     = (argAnswer.text ? argAnswer.text : argAnswer.answer) || [""] ; ;
@@ -107,29 +107,29 @@ const parseJson     = (argAnswer) => {
     }
     return outEle ;
 }
-const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,argToggleInput) => {
+const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,setInputEditable) => {
     let outEle = false ;
     try {
         if ( argAnswer.options && argAnswer.options.length>0 ){
-            if ( typeof argToggleInput=="function" ){
-                argToggleInput(false,'desde define options: ') ;
+            if ( typeof setInputEditable=="function" ){
+                setInputEditable(false,'desde define options: argAnswer.options: '+JSON.stringify(argAnswer.options)) ;
             } else {
-                console.log('...no es funcion, que es?? argToggleInput:: ',argToggleInput) ;
+                console.log('...no es funcion, que es?? setInputEditable:: ',setInputEditable) ;
             }
         } else {
             return <div></div> ;
         }
-        //
+        // <span>{<ReactRenderDynamic text={argAnswer.text} />}</span>
         outEle =    <div >
-                        <span>{<ReactRenderDynamic text={argAnswer.text} />}</span>
                         {
                             argAnswer.options.map((elemInner, elemIdx)=>{
                                 return (
                                     <Tag    key={elemIdx} style={{marginTop:'5px'}}
                                             onClick={ (argEE)=>{
-                                                argEE.preventDefault() ;
-                                                // console.log('.....voy a cambiar toggle despues de optionssss:: argToggleInput: ',argToggleInput) ;
-                                                argToggleInput(true,'desde click en tag: '+elemInner.label) ;
+                                                if ( argEE && argEE.preventDefault ){  argEE.preventDefault() ; }
+                                                // console.log('.....voy a cambiar setInputEditable despues de optionssss:: setInputEditable: ',setInputEditable) ;
+                                                console.log('....se ejecuta esta garomba ??') ,
+                                                setInputEditable(true,'desde click en tag: '+elemInner.label) ;
                                                 argOnClickOpcion(elemInner.value) ;
                                             }}
                                     >
@@ -164,50 +164,29 @@ const allParsers = {
     carousel: parseCarousel
 }
 //
-//export const parseAnswer = (argAnswer, argStyle={}, toggleInput) => {
 export const parseAnswer = ( argParams ) => {
     try {
         //
-        const { answer, customStyle, onClickOpcion, toggleInput } = argParams ;
-        //
-        /*
-        let flagHayOpciones  = false ;
-        let flagCambieEstado = false ;
-        if ( toggleInput && typeof toggleInput=="function" ){
-            toggleInput(false, 'desde inicio parseAnswer') ;
-            flagCambieEstado = true ;
-            // console.log('....(A) cambie de estado el input ') ;
-        }
-        */
+        const { answer, customStyle, onClickOpcion, setInputEditable } = argParams ;
         //
         let arrayOut     = [] ;
         let arrayAnswers = Array.isArray(answer) ? answer : new Array(answer);
         for ( let indArr=0; indArr<arrayAnswers.length; indArr++ ){
             let answerElem = arrayAnswers[ indArr ] ;
-            // console.log('....parseAnswer:: indArr: ',indArr,' type:: ',answerElem.type) ;
             let parser    = allParsers[ answerElem.type ] || false ;
             if ( parser==false ){
                 throw new Error('ERROR: Answer type "'+answerElem.type+'" is unknown. Answer:: '+JSON.stringify(answerElem)) ;
             }
             //
-            //  if ( answerElem.type=="options" ){ flagHayOpciones = true; }
-            //
+            // console.log('\n\n ..(0) parseAnswer:: indArr: ',indArr,' type:: ',answerElem.type,' entity: ',JSON.stringify(answerElem) ) ;
             arrayOut.push(
                 <div key={indArr} >
-                    { parser( answerElem, customStyle, indArr, onClickOpcion, toggleInput ) }
-                    { parseOption( answerElem, customStyle, indArr, onClickOpcion, toggleInput ) }
+                    { parser( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }
+                    { parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }
                     { parseFiles( answerElem, indArr ) }
                 </div>
             ) ;
         }
-        //
-        /*
-        if ( flagCambieEstado==true && flagHayOpciones==false ){
-            toggleInput(true, 'fin de parse') ;
-            flagCambieEstado = false ;
-            //console.log('....ya ejecuteeeeee') ;
-        }
-        */
         //
         return arrayOut ;
     } catch(errPA){
