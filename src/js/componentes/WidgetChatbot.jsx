@@ -149,7 +149,7 @@ export class WidgetChatbot extends Component {
     try {
       //
       if ( argTextSearch && argTextSearch.length>0 ){
-        this.handleNewUserMessage( argTextSearch ) ;
+        this.handleNewUserMessage({ intent: argTextSearch }) ;
       }
       //
     } catch(errOCO){
@@ -162,9 +162,10 @@ export class WidgetChatbot extends Component {
     *   __URL_BACKEND__: Es generada por webpack en momento del Build
     */
     const { fetchChatbot } = api( {backEndServer: this.props.backEndServer} ) ;
+    let searchInNlp        = ( typeof newMessage=="object" ) ? newMessage : { text: newMessage } ;
     //
     toggleMsgLoader();
-    fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input:{text:newMessage} })
+    fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input: searchInNlp })
       .then((respBot)=>{
         //console.log('\n\n******* handleNewUserMessage:: msg: ----> ',newMessage) ;
           renderCustomComponent( CustomReply.bind(this) ,
