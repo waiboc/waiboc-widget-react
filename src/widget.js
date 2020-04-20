@@ -6,7 +6,10 @@ import ReactDOM                                          from "react-dom"     ;
 import ls                                                from 'local-storage' ;
 import { WidgetChatbot }                                 from "./js/componentes/WidgetChatbot" ;
 import { CustomReply   }                                 from "./js/componentes/CustomReply"   ;
-import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
+//import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
+import { api }                                           from "./js/api/api" ;
+//
+const { getChatbotInfo, getIdConversation, PARAMETROS } = api({backEndServer: false}) ;
 //
 const domNodeWidget = () => {
   let outDiv ;
