@@ -34,6 +34,7 @@ export class WaibocReactWidget extends React.Component {
     //
     constructor(props){
         super(props) ;
+        console.log('...this.props: ',this.props) ;
         this.state = {
             flagCached: false,
             flagValidBot: false,
@@ -43,6 +44,7 @@ export class WaibocReactWidget extends React.Component {
             idConversation: "",
             chatlog: [],
             chatEvents: [],
+            launcher: (typeof this.props.launcher!="undefined") ? this.props.launcher : true,
             options: ( this.props.options && this.props.options!=false ) ? this.props.options : {}
         } ;
         //
@@ -145,6 +147,7 @@ export class WaibocReactWidget extends React.Component {
                                     options: this.state.options
                                 }}
                                 key="22"
+                                launcher={this.state.launcher}
                                 widgetVisible={this.state.widgetVisible}
                                 backEndServer={this.state.backEndServer}
                                 onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}

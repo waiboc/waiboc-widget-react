@@ -12,6 +12,7 @@ console.log('...WaibocReactWidget: ',WaibocReactWidget) ;
 ReactDOM.render(
             <WaibocReactWidget idAgent="5e944932a6f5c53ad8bac8b3"
                     options={false}
+                    launcher={false}
                     backEndServer={"http://localhost:3001"}
                     onWindowOpen={
                             ()=>{
