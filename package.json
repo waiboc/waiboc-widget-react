@@ -59,6 +59,8 @@
     "npm": ">= 5.6.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^3.3.1"

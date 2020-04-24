@@ -5,7 +5,7 @@ import React, { Component }                                      from 'react'  ;
 import { Button }                                                from 'antd'   ;
 import { Widget, addResponseMessage, renderCustomComponent }     from 'react-chat-widget'    ;
 import { toggleMsgLoader, addUserMessage   }                     from 'react-chat-widget'    ;
-import { isWidgetOpened, toggleWidget }                          from 'react-chat-widget'    ;
+import { isWidgetOpened, toggleWidget, dropMessages }            from 'react-chat-widget'    ;
 import { CustomReply  }                                          from './CustomReply'        ;
 import { ButtonLauncher }                                        from './button/ButtonLauncher' ;
 import { api }                                                   from '../api/api' ;
@@ -67,34 +67,35 @@ export class WidgetChatbot extends Component {
   componentDidMount(){
     try {
       //
-      console.log('\n\n ....********* componentDidMount:: ') ;
-      toggleMsgLoader();
-      let tempChatlog = this.props.conversation.chatlog.sort( (a,b)=>{ return a.ts.localeCompare(b.ts); }) ;
-      for (let icl=0; icl<tempChatlog.length; icl++){
-        let objConv = tempChatlog[icl] ;
-        if ( objConv.intent  && String(objConv.intent).length>0 ){
-          if ( objConv.userMessage && objConv.userMessage.text && String(objConv.userMessage.text)!="undefined" && objConv.userMessage.text!=objConv.intent ){
-            addUserMessage( String(objConv.userMessage.text) ) ;
+      // console.log('\n\n ....********* componentDidMount:: this.props.conversation.chatlog: ',this.props.conversation.chatlog.length) ;
+      if ( this.props.conversation.chatlog.length==0 ){
+        dropMessages() ;
+      } else {
+        toggleMsgLoader();
+        let tempChatlog = this.props.conversation.chatlog.sort( (a,b)=>{ return a.ts.localeCompare(b.ts); }) ;
+        for (let icl=0; icl<tempChatlog.length; icl++){
+          let objConv = tempChatlog[icl] ;
+          if ( objConv.intent  && String(objConv.intent).length>0 ){
+            if ( objConv.userMessage && objConv.userMessage.text && String(objConv.userMessage.text)!="undefined" && objConv.userMessage.text!=objConv.intent ){
+              addUserMessage( String(objConv.userMessage.text) ) ;
+            }
+            renderCustomComponent( CustomReply.bind(this) ,
+                                {
+                                  datos: objConv.answer ,
+                                  timestamp: objConv.ts,
+                                  onClickOpcion:this.onClickOpcion.bind(this),
+                                  addMsg: addResponseMessage.bind(this) ,
+                                  windowStyle: this.props.configuration.windowStyle,
+                                  onOpen: this.chatOpenedHandler ,
+                                  onClose: this.chatClosedHandler,
+                                  toggleInput: ()=>{} //toggleInputDisabled.bind(this)
+                                }, false ) ;
           }
-          renderCustomComponent( CustomReply.bind(this) ,
-                              {
-                                datos: objConv.answer ,
-                                timestamp: objConv.ts,
-                                onClickOpcion:this.onClickOpcion.bind(this),
-                                addMsg: addResponseMessage.bind(this) ,
-                                windowStyle: this.props.configuration.windowStyle,
-                                onOpen: this.chatOpenedHandler ,
-                                onClose: this.chatClosedHandler,
-                                toggleInput: ()=>{} //toggleInputDisabled.bind(this)
-                              }, false ) ;
         }
+        toggleMsgLoader() ;
       }
-      toggleMsgLoader() ;
-      console.log('\n\n ....********* FINT         componentDidMount:: ') ;
       //
-      console.log('....componentDidMount:: isWidgetOpened: ',isWidgetOpened(),' this.state.launcher: ',this.state.launcher) ;
       if ( this.state.launcher==false && isWidgetOpened()==false ){
-        console.log('.......(B) componentDidMount:: voy a hacer open') ;
         toggleWidget() ;
       }
       //
@@ -195,10 +196,12 @@ export class WidgetChatbot extends Component {
   }
   //
   chatClosedHandler(){
+    /* NO SE USA MAS
     if ( this.state.chatOpen!=false ){
       this.props.onWindowClose() ;
       this.setState({chatOpen: false}) ;
     }
+    */
   }
   //
   onClickOpcion(argTextSearch){

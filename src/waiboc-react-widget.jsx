@@ -4,8 +4,7 @@
 import React                                             from "react"         ;
 import ls                                                from 'local-storage' ;
 import { WidgetChatbot }                                 from "./js/componentes/WidgetChatbot" ;
-import { api }                                           from "./js/api/api" ;
-// import { getChatbotInfo, getIdConversation, PARAMETROS } from "./js/api/api" ;
+import { api }                                           from "./js/api/api"  ;
 //
 const validateProps = ( props ) => {
     try {
@@ -28,18 +27,63 @@ const validateProps = ( props ) => {
         console.log('....errVP: ',errVP) ;
     }
 } ;
+const chatbotInformation = (argOpt) => {
+    return new Promise(function(respOk,respRech){
+        try {
+            //
+            let newState = {} ;
+            const { getChatbotInfo, getIdConversation, PARAMETROS } = api( {backEndServer: argOpt.backEndServer} ) ;
+            getIdConversation(false, argOpt.options.training)
+                    .then((respIdConversation)=>{
+                        return getChatbotInfo( {idChatbot: argOpt.idAgent, idConversation: respIdConversation.id} ) ;
+                    })
+                    .then((respData)=>{
+                        //
+                        newState = {
+                            flagCached: true,
+                            flagValidBot: false,
+                            idConversation: respData.result.idConversation || false,
+                            chatlog: argOpt.showChatlog==true ? respData.result.chatlog : [] ,
+                            chatEvents: respData.result.chatEvents || [],
+                            options: argOpt.options || false
+                        } ;
+                        //
+                        //console.log('....argOpt.showChatlog: ',argOpt.showChatlog,' chatlog: ',newState.chatlog) ;
+                        //
+                        if ( respData.result.resultCode==PARAMETROS.RESULT_CODES.OK ){
+                            newState.flagValidBot    = true ;
+                            newState.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
+                            ls( PARAMETROS.SESSION.ID_CONVERSATION, respData.result.idConversation ) ;
+                            //console.log('....voy a responder promiseeee:: newState: ',newState) ;
+                            respOk( newState ) ;
+                        } else {
+                            console.log('....CHATBOT IS NOT VALID ---> ',respData.result.error) ;
+                            newState = {flagCached: true, flagValidBot: false} ;
+                            respOk( newState ) ;
+                        }
+                    })
+                    .catch((respErr)=>{
+                        console.dir(respErr) ;
+                        newState = {flagCached: true, flagValidBot: false} ;
+                        respOk( newState ) ;
+                    }) ;
+            //
+        } catch(errCI){
+            respRech(errCI) ;
+        }
+    }) ;
+} ;
 //
-// export { CustomReply } ;
 export class WaibocReactWidget extends React.Component {
     //
     constructor(props){
         super(props) ;
-        console.log('...this.props: ',this.props) ;
         this.state = {
             flagCached: false,
             flagValidBot: false,
             widgetVisible: true,
             idAgent: this.props.idAgent || false,
+            showChatlog: (typeof this.props.showChatlog!="undefined") ? this.props.showChatlog : true,
             backEndServer: this.props.backEndServer ? this.props.backEndServer : false,
             idConversation: "",
             chatlog: [],
@@ -47,6 +91,7 @@ export class WaibocReactWidget extends React.Component {
             launcher: (typeof this.props.launcher!="undefined") ? this.props.launcher : true,
             options: ( this.props.options && this.props.options!=false ) ? this.props.options : {}
         } ;
+        this.retrieveData  = this.retrieveData.bind(this)  ;
         //
     } ;
     //
@@ -54,6 +99,11 @@ export class WaibocReactWidget extends React.Component {
         //
         if ( newProps.options && typeof newProps.options=="object" && JSON.stringify(newProps.options)!=JSON.stringify(state.options) || newProps.idAgent!=state.idAgent ){
             let newState = { idAgent: newProps.idAgent } ;
+            if ( newProps.idAgent!=state.idAgent ){
+                newState.chatlog    = [] ;
+                newState.flagCached = false ;
+                // ls.remove( PARAMETROS.SESSION.ID_CONVERSATION ) ;
+            }
             if ( newProps.options!=false ){
                 newState.options = newProps.options || {} ;
                 if ( !newState.options.training  ){ newState.options.training=false; }
@@ -70,68 +120,28 @@ export class WaibocReactWidget extends React.Component {
         //
     } ;
     //
-    componentDidMount(){
+    async retrieveData(){
+        let botInf = await chatbotInformation({showChatlog: this.state.showChatlog, idAgent: this.state.idAgent, backEndServer: this.state.backEndServer, options: this.state.options}) ;
+        return botInf ;
+    }
+    //
+    async componentDidUpdate(prevProps, prevState) {
+        if (this.state.flagCached===false) {
+            let botInf = await this.retrieveData() ;
+            this.setState( botInf) ;
+        }
+      }
+    //
+    async componentDidMount(){
         try {
-            //
             let resultValidation = validateProps( this.props );
             if ( resultValidation.validProps==true ){
-                //
-                const { getChatbotInfo, getIdConversation, PARAMETROS } = api( {backEndServer: this.state.backEndServer} ) ;
-                getIdConversation(false, this.state.options.training)
-                    .then((respIdConversation)=>{
-                        return getChatbotInfo( {idChatbot: this.state.idAgent, idConversation: respIdConversation.id} ) ;
-                    })
-                    .then((respData)=>{
-                        //
-                        let newState = {
-                            flagCached: true,
-                            flagValidBot: false,
-                            idConversation: respData.result.idConversation || false,
-                            chatlog: respData.result.chatlog || [] ,
-                            chatEvents: respData.result.chatEvents || [],
-                            options: this.state.options || false
-                        } ;
-                        //
-                        if ( respData.result.resultCode==PARAMETROS.RESULT_CODES.OK ){
-                            //
-                            //console.log('....respData.result: ',respData.result) ;
-                            newState.flagValidBot    = true ;
-                            // newState.options.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
-                            newState.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
-                            // Sobreescribe valores de configuracion en DB, por valores indicados localmente
-                            if ( this.props.options && this.props.options!=false ){
-                                for ( let keyConf in this.props.options ){
-                                    let valConf = this.props.options[keyConf] ;
-                                    if ( valConf && String(valConf).length>0 ){
-                                        newState.options[keyConf] = valConf ;
-                                    }
-                                }
-                            }
-                            //
-                            ls( PARAMETROS.SESSION.ID_CONVERSATION, respData.result.idConversation ) ;
-                            /*
-                            if ( newState.chatlog && newState.chatlog.length==1 && newState.chatlog[0].userMessage=="" ){
-                                newState.chatlog = [] ;
-                            }
-                            console.log('....newState: ',newState);
-                            */
-                            this.setState( newState ) ;
-                            //
-                        } else {
-                            console.log('....CHATBOT IS NOT VALID ---> ',respData.result.error) ;
-                            this.setState({ flagCached: true, flagValidBot: false }) ;
-                        }
-                    })
-                    .catch((respErr)=>{
-                        console.dir(respErr) ;
-                        this.setState({ flagCached: true, flagValidBot: false }) ;
-                    }) ;
-                //
+                let botInf = await this.retrieveData() ;
+                this.setState( botInf) ;
             } else {
                 console.log('...resultValidation: ',resultValidation) ;
                 this.setState({ flagCached: true, flagValidBot: false }) ;
             }
-            //
         } catch(errDM){
             console.log('.....ERROR: ',errDM) ;
             this.setState({ flagCached: true, flagValidBot: false }) ;
@@ -152,7 +162,11 @@ export class WaibocReactWidget extends React.Component {
                                 backEndServer={this.state.backEndServer}
                                 onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}
                                 onWindowClose={this.props.onWindowClose ? this.props.onWindowClose : ()=>{console.log('....windowClose')}}
-                                conversation={{idConversation: this.state.idConversation,chatlog: this.state.chatlog, chatEvents: this.state.chatEvents}}
+                                conversation={{
+                                    idConversation: this.state.idConversation,
+                                    chatlog: this.state.chatlog,
+                                    chatEvents: this.state.chatEvents
+                                }}
                             />
                         :   <div key="11" ></div> ;
         //

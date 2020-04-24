@@ -33,7 +33,7 @@ export const api = ( options ) => {
                             }
                         }.bind(this))
                         .then(function(respBots ){
-                            console.log('...respBots: ',respBots) ;
+                            // console.log('...respBots: ',respBots) ;
                             respOk(respBots) ;
                         }.bind(this))
                         .catch((respRechaz ) => { respRech(respRechaz) ; }) ;
@@ -78,6 +78,7 @@ export const api = ( options ) => {
         return new Promise(function(respData,respRech){
             try {
                 let idConversation = (argFlagNewConversation==true) ? false : ( ls( PARAMETROS.SESSION.ID_CONVERSATION ) || false ) ;
+                // console.log('....getIdCon:: idConversation: ',idConversation) ;
                 if ( idConversation ){
                     if ( argFlagChatbot==true ){
                         fetchChatlog( {_id:idConversation} )
