@@ -49,14 +49,19 @@ const displayFileAlone = (elemFile,elemIdx) => {
     let outfile = null ;
     try {
         if ( elemFile.type.indexOf('image')!=-1 ){
-            outfile = <ImageLoader  key={elemIdx}
-                                    src={elemFile.relativePath}
-                                    altImg={elemFile.alt ? elemFile.alt : ""}
-                                    className="" loadingClassName="loading" loadedClassName=""
-                                    customStyle={{img:{marginTop:'10px'}}}
-                                    title={elemFile.name}
-                                    alt={elemFile.name}
-                        />
+            outfile =   <div className="slide-panel" key={elemIdx} >
+                            <ImageLoader  key={elemIdx}
+                                        src={elemFile.relativePath}
+                                        altImg={elemFile.alt ? elemFile.alt : ""}
+                                        className="" loadingClassName="loading" loadedClassName=""
+                                        customStyle={{img:{marginTop:'10px'}}}
+                                        title={elemFile.name}
+                                        alt={elemFile.name}
+                            />
+                            <span className="description" >
+                            {elemFile.description||elemFile.name||''}
+                            </span>
+                        </div> ;
         } else {
             let styleFile = {color:'green', fontSize:'32px',marginRight:'20px', marginTop:'10px'} ;
             let iconFile  = <Icon type="file" style={styleFile} /> ;
@@ -66,7 +71,7 @@ const displayFileAlone = (elemFile,elemIdx) => {
                 case 'application/vnd.ms-powerpoint':  iconFile  = <Icon type="file-ppt"   style={styleFile} /> ; break ;
                 case 'application/zip':                iconFile  = <Icon type="file-zip"   style={styleFile} /> ; break ;
                 case 'video/mp4':
-                    iconFile = <video loop="" autoPlay="" muted="" style={{marginTop:'10px',minHeight:'30vh' }} >
+                    iconFile = <video loop="" autoPlay="" muted="" style={{marginTop:'10px',minHeight:'100px' }} >
                                     <source src={elemFile.relativePath} type="video/mp4" />
                                 </video> ;
                 break ;
@@ -74,11 +79,11 @@ const displayFileAlone = (elemFile,elemIdx) => {
                     console.log('....formato desconocido de archivo:: type: '+String(elemFile.type).trim()+' objeto: ',elemFile) ;
                 break ;
             }
-            outfile = <div key={elemIdx}>
+            outfile = <div key={elemIdx} className="slide-panel" >
                         <a href={elemFile.relativePath} target="_blank" >
                             {iconFile}
-                            <span style={{marginLeft:'10px', fontSize:'20px'}} >
-                                {elemFile.name}
+                            <span className="description" >
+                                {elemFile.description||elemFile.name||''}
                             </span>
                         </a>
                     </div> ;
@@ -96,8 +101,6 @@ const parseFiles    = (argAnswer, argKey) => {
         if ( argAnswer.files && argAnswer.files.length>0 ){
             //
             if ( !argAnswer.fileDisplayType ){ argAnswer.fileDisplayType='carousel'; }
-            //
-            console.log('....argAnswer: ',argAnswer) ;
             //
             if ( argAnswer.fileDisplayType=='carousel' ){
                 let arrayFiles = argAnswer.files.map((elemArch, elemIdx)=>{

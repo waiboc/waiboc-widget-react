@@ -52,8 +52,10 @@
 /*  */
 #waiboc-widget-main .ant-carousel .slick-slide {
   text-align: center !important ;
-  height: 160px !important ;
+  min-height: 160px !important ;
+  /*
   line-height: 160px !important ;
+  */
   background: #364d79 !important ;
   overflow: hidden !important ;
 }

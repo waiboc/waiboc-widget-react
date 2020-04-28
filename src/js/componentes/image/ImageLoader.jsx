@@ -35,7 +35,7 @@ export class ImageLoader extends React.Component {
     }
     //
     return (
-        <div style={{minHeight:'30vh'}} key={this.props.src} >
+        <div style={{minHeight:'50px'}} key={this.props.src} >
           <div style={{width:'100%'}}>
               <img
                   style={imgStyle}
