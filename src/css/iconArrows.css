@@ -6,7 +6,11 @@
     margin-bottom: 5px ;
     padding: 5px ;
 }
-.waiboc-carousel .slide-panel .description {
+.waiboc-carousel .waiboc-slide-panel .waiboc-slide-imag {
+    height: 200px ;
+    width: auto ;
+}
+.waiboc-carousel .waiboc-slide-panel .description {
     position: relative ;
     display: block ;
     /* bottom: 0px ; */
@@ -21,7 +25,7 @@
     background: #00000017;
     transition: all 0.6s ease 0.2s ;
 }
-.waiboc-carousel .slide-panel .description:hover {
+.waiboc-carousel .waiboc-slide-panel .description:hover {
     box-shadow: 0px 0px 5px 0px #111 ;
 }
 .waiboc-carousel .ant-carousel .slick-dots li button {
@@ -41,7 +45,7 @@
     z-index: 99999 ;
     display: block ;
     position: absolute ;
-    top: 40% ;
+    top: 25% ;
     cursor: pointer ;
     height: 60px ;
     width: 60px ;

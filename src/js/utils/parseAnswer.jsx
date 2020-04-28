@@ -49,11 +49,12 @@ const displayFileAlone = (elemFile,elemIdx) => {
     let outfile = null ;
     try {
         if ( elemFile.type.indexOf('image')!=-1 ){
-            outfile =   <div className="slide-panel" key={elemIdx} >
+            outfile =   <div className="waiboc-slide-panel" key={elemIdx} >
                             <ImageLoader  key={elemIdx}
                                         src={elemFile.relativePath}
                                         altImg={elemFile.alt ? elemFile.alt : ""}
-                                        className="" loadingClassName="loading" loadedClassName=""
+                                        className="waiboc-slide-imag"
+                                        loadingClassName="loading" loadedClassName=""
                                         customStyle={{img:{marginTop:'10px'}}}
                                         title={elemFile.name}
                                         alt={elemFile.name}
@@ -79,7 +80,7 @@ const displayFileAlone = (elemFile,elemIdx) => {
                     console.log('....formato desconocido de archivo:: type: '+String(elemFile.type).trim()+' objeto: ',elemFile) ;
                 break ;
             }
-            outfile = <div key={elemIdx} className="slide-panel" >
+            outfile = <div key={elemIdx} className="waiboc-slide-panel" >
                         <a href={elemFile.relativePath} target="_blank" >
                             {iconFile}
                             <span className="description" >
