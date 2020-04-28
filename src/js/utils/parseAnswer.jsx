@@ -6,6 +6,7 @@ import { Button, Icon, Tag }                   from 'antd'  ;
 import { ImageLoader }                         from '../componentes/image/ImageLoader'   ;
 import { TableDynamic }                        from '../componentes/table/TableDynamic'  ;
 import { MessageCarousel }                     from '../componentes/messages/MessageCarousel' ;
+import { CarouselImagenes }                    from '../componentes/image/CarouselImagenes'   ;
 //
 const ReactRenderDynamic = (argProps) => {
     const subs = /(^.*)(\$(.*))/.exec(argProps.text);
@@ -43,53 +44,85 @@ const parseText     = (argAnswer,tempStyle,argKey,argOnClickOpcion, setInputEdit
     }
     return outDiv ;
 }
+//
+const displayFileAlone = (elemFile,elemIdx) => {
+    let outfile = null ;
+    try {
+        if ( elemFile.type.indexOf('image')!=-1 ){
+            outfile = <ImageLoader  key={elemIdx}
+                                    src={elemFile.relativePath}
+                                    altImg={elemFile.alt ? elemFile.alt : ""}
+                                    className="" loadingClassName="loading" loadedClassName=""
+                                    customStyle={{img:{marginTop:'10px'}}}
+                                    title={elemFile.name}
+                                    alt={elemFile.name}
+                        />
+        } else {
+            let styleFile = {color:'green', fontSize:'32px',marginRight:'20px', marginTop:'10px'} ;
+            let iconFile  = <Icon type="file" style={styleFile} /> ;
+            switch( String(elemFile.type).trim() ){
+                case 'application/vnd.ms-excel':       iconFile  = <Icon type="file-excel" style={styleFile} /> ; break ;
+                case 'application/pdf':                iconFile  = <Icon type="file-pdf"   style={styleFile} /> ; break ;
+                case 'application/vnd.ms-powerpoint':  iconFile  = <Icon type="file-ppt"   style={styleFile} /> ; break ;
+                case 'application/zip':                iconFile  = <Icon type="file-zip"   style={styleFile} /> ; break ;
+                case 'video/mp4':
+                    iconFile = <video loop="" autoPlay="" muted="" style={{marginTop:'10px',minHeight:'30vh' }} >
+                                    <source src={elemFile.relativePath} type="video/mp4" />
+                                </video> ;
+                break ;
+                default:
+                    console.log('....formato desconocido de archivo:: type: '+String(elemFile.type).trim()+' objeto: ',elemFile) ;
+                break ;
+            }
+            outfile = <div key={elemIdx}>
+                        <a href={elemFile.relativePath} target="_blank" >
+                            {iconFile}
+                            <span style={{marginLeft:'10px', fontSize:'20px'}} >
+                                {elemFile.name}
+                            </span>
+                        </a>
+                    </div> ;
+        }
+    } catch(errFA){
+        console.log('...ERROR: ',errFA) ;
+    }
+    return  outfile;
+} ;
+
+//
 const parseFiles    = (argAnswer, argKey) => {
     let outEle = null ;
     try {
         if ( argAnswer.files && argAnswer.files.length>0 ){
-            outEle = <div key={argKey+"_files"}>
+            //
+            if ( !argAnswer.fileDisplayType ){ argAnswer.fileDisplayType='carousel'; }
+            //
+            console.log('....argAnswer: ',argAnswer) ;
+            //
+            if ( argAnswer.fileDisplayType=='carousel' ){
+                let arrayFiles = argAnswer.files.map((elemArch, elemIdx)=>{
+                                    let outDisfile = displayFileAlone( elemArch,elemIdx ) ;
+                                    return(
+                                        <div key={elemIdx} style={{width:'auto',height:'200px'}} >{outDisfile}</div>
+                                        ) ;
+                                }) || [] ;
+                outEle =    <CarouselImagenes
+                                settings={{ infinite:true, autoplay: false, autoplaySpeed: 5000,centerMode:false,variableWidth:false}}
+                                styleArrows={{background:'none',opacity:'0.2'}}
+                                //ref={this.setRefCarousel}
+                                arrows={false}
+                                data={ arrayFiles }
+                            /> ;
+            } else {
+                outEle = <div key={argKey+"_files"}>
                 {
-                    argAnswer.files.map((elemFile, elemIdx)=>{
-                        let outfile = null ;
-                        if ( elemFile.type.indexOf('image')!=-1 ){
-                            outfile = <ImageLoader  key={elemIdx}
-                                                    src={elemFile.relativePath}
-                                                    altImg={elemFile.alt ? elemFile.alt : ""}
-                                                    className="" loadingClassName="loading" loadedClassName=""
-                                                    customStyle={{img:{marginTop:'10px'}}}
-                                                    title={elemFile.name}
-                                                    alt={elemFile.name}
-                                        />
-                        } else {
-                            let styleFile = {color:'green', fontSize:'32px',marginRight:'20px', marginTop:'10px'} ;
-                            let iconFile  = <Icon type="file" style={styleFile} /> ;
-                            switch( String(elemFile.type).trim() ){
-                                case 'application/vnd.ms-excel':       iconFile  = <Icon type="file-excel" style={styleFile} /> ; break ;
-                                case 'application/pdf':                iconFile  = <Icon type="file-pdf"   style={styleFile} /> ; break ;
-                                case 'application/vnd.ms-powerpoint':  iconFile  = <Icon type="file-ppt"   style={styleFile} /> ; break ;
-                                case 'application/zip':                iconFile  = <Icon type="file-zip"   style={styleFile} /> ; break ;
-                                case 'video/mp4':
-                                    iconFile = <video loop="" autoPlay="" muted="" style={{marginTop:'10px',minHeight:'30vh' }} >
-                                                    <source src={elemFile.relativePath} type="video/mp4" />
-                                                </video> ;
-                                break ;
-                                default:
-                                    console.log('....formato desconocido de archivo:: type: '+String(elemFile.type).trim()+' objeto: ',elemFile) ;
-                                break ;
-                            }
-                            outfile = <div key={elemIdx}>
-                                        <a href={elemFile.relativePath} target="_blank" >
-                                            {iconFile}
-                                            <span style={{marginLeft:'10px', fontSize:'20px'}} >
-                                                {elemFile.name}
-                                            </span>
-                                        </a>
-                                    </div> ;
-                        }
-                        return outfile ;
+                    argAnswer.files.map((elemArch, elemIdx)=>{
+                        let outDisfile = displayFileAlone( elemArch,elemIdx ) ;
+                        return outDisfile ;
                     })
                 }
             </div> ;
+            }
         }
     } catch(errPI){
         console.dir(errPI) ;
