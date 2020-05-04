@@ -52,16 +52,13 @@ const displayFileAlone = (elemFile,elemIdx) => {
             outfile =   <div className="waiboc-slide-panel" key={elemIdx} >
                             <ImageLoader  key={elemIdx}
                                         src={elemFile.relativePath}
-                                        altImg={elemFile.alt ? elemFile.alt : ""}
-                                        className="waiboc-slide-imag"
+                                        altImg={elemFile.description||elemFile.name||''}
+                                        className="waiboc-slide-imag  "
                                         loadingClassName="loading" loadedClassName=""
                                         customStyle={{img:{marginTop:'10px'}}}
                                         title={elemFile.name}
                                         alt={elemFile.name}
                             />
-                            <span className="description" >
-                            {elemFile.description||elemFile.name||''}
-                            </span>
                         </div> ;
         } else {
             let styleFile = {color:'green', fontSize:'32px',marginRight:'20px', marginTop:'10px'} ;

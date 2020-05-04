@@ -8,6 +8,7 @@
     "build:npmDev": "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
     "build:npm": "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
     "build:prod": "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
+    "build:test": "webpack  --mode development --config ./build_config/webpack.react.widget.js",
     "prepublishOnly": "npm run build:npm",
     "start": "babel-node ./server/server.js",
     "start:react": "webpack-dev-server  --config ./build_config/webpack.react.dev.js",
@@ -61,6 +62,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "express": "^4.17.1",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^3.3.1"

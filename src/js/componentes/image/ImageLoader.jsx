@@ -26,13 +26,8 @@ export class ImageLoader extends React.Component {
     let { className, loadedClassName, loadingClassName, customStyle , altImg, ...props } = this.props;
     className = `${className} ${this.state.loaded ? loadedClassName : loadingClassName}`;
     //
-    let imgStyle = {width: '300px', height: 'auto', marginLeft: '2%'} ;
-    if ( customStyle.img ){
-      imgStyle = {
-        ...imgStyle,
-        ...customStyle.img
-      }
-    }
+    let imgStyle = customStyle.img ? customStyle.img : {}  ;
+    console.log('...nnnnn') ;
     //
     return (
         <div style={{minHeight:'50px'}} key={this.props.src} >

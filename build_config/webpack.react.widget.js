@@ -3,16 +3,21 @@
 */
 const path                        = require('path');
 const webpack                     = require("webpack");
-const HtmlWebpackPlugin           = require('html-webpack-plugin');
+const HtmlWebpackPlugin           = require('html-webpack-plugin') ;
+const express                     = require('express') ;
 //
 let tempURLbackend = process.env.URL_BACKEND ? process.env.URL_BACKEND : "http://localhost:3001" ;
 if ( tempURLbackend.substr((tempURLbackend.length-1),1)=="/"){ tempURLbackend=tempURLbackend.substr(0,(tempURLbackend.length-1)); }
 //
+let fileName = 'testWidgetBundl.js' ;
+//
 module.exports = {
   entry: './test/testReactWidget.js',
+  //entry: "./test/testReactWidget.html",
   output: {
-    filename: 'testReactWidget.js',
-    path: path.join(__dirname, 'dist')
+    filename: fileName,
+    path: path.join(__dirname, '../build')
+    //publicPath: '../build'
   },
   module:{
 	   rules: [
@@ -75,6 +80,42 @@ module.exports = {
   devServer: {
     port: 9003,
     open: true,
+    contentBase: path.join(__dirname, '../build' ),
+    // watchContentBase: true,
+    /*
+    setup(app){
+      app.use('/', express.static('/test/'));
+    },
+    */
+   /*
+    before: function(app, server, compiler) {
+      let staticPath = require('path').join(__dirname,'../build')
+      console.log('\n\n before::staticPath: ',staticPath,'\n\n');
+      app.use('/', express.static( staticPath )) ;
+      //
+      app.get('/', function(req, res) {
+        res.set('access-Control-Allow-Origin', '*');
+        res.set('access-Control-Allow-Methods', '*');
+        res.set("Access-Control-Allow-Headers","X-PINGOTHER, Content-Type" ) ;
+        res.setHeader("Access-Control-Allow-Credentials", true);
+        //
+        res.sendFile( path.join(__dirname,'../build/waiboc.html') );
+        //
+      });
+      //
+    },
+    */
+   /*
+   after: function(app, server, compiler) {
+      console.log('....after:: app: ',app,' server: ',server) ;
+    },
+    */
+   /*
+    proxy: {
+        "/5df990135940bb454c846a1e": "http://localhost:3001/5df990135940bb454c846a1e",
+        "/5e944932a6f5c53ad8bac8b3": "http://localhost:3001/5e944932a6f5c53ad8bac8b3"
+    },
+    */
     //open: true,
     headers: {
       "Access-Control-Allow-Credentials": true,
@@ -86,7 +127,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: "testReactWidget.html",
+      // filename: "testReactWidget.html",
+      filename: "waiboc.html",
       template: "./test/testReactWidget.html",
       title:"testReactWidge",
       inject: true,
