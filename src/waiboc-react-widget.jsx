@@ -6,6 +6,7 @@ import ls                                                from 'local-storage' ;
 import { WidgetChatbot }                                 from "./js/componentes/WidgetChatbot" ;
 import { api }                                           from "./js/api/api"  ;
 //
+const log  = require('debug')('waiboc:widget-react-widget') ;
 const validateProps = ( props ) => {
     try {
         let flagValid = {
@@ -48,13 +49,10 @@ const chatbotInformation = (argOpt) => {
                             options: argOpt.options || false
                         } ;
                         //
-                        //console.log('....argOpt.showChatlog: ',argOpt.showChatlog,' chatlog: ',newState.chatlog) ;
-                        //
                         if ( respData.result.resultCode==PARAMETROS.RESULT_CODES.OK ){
                             newState.flagValidBot    = true ;
                             newState.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
                             ls( PARAMETROS.SESSION.ID_CONVERSATION, respData.result.idConversation ) ;
-                            //console.log('....voy a responder promiseeee:: newState: ',newState) ;
                             respOk( newState ) ;
                         } else {
                             console.log('....CHATBOT IS NOT VALID ---> ',respData.result.error) ;
@@ -93,6 +91,7 @@ export class WaibocReactWidget extends React.Component {
         } ;
         this.retrieveData  = this.retrieveData.bind(this)  ;
         //
+        log('...onstructor') ;
     } ;
     //
     static getDerivedStateFromProps(newProps,state){
@@ -102,7 +101,6 @@ export class WaibocReactWidget extends React.Component {
             if ( newProps.idAgent!=state.idAgent ){
                 newState.chatlog    = [] ;
                 newState.flagCached = false ;
-                // ls.remove( PARAMETROS.SESSION.ID_CONVERSATION ) ;
             }
             if ( newProps.options!=false ){
                 newState.options = newProps.options || {} ;
@@ -150,25 +148,26 @@ export class WaibocReactWidget extends React.Component {
     //
     render () {
         //
+        log('...render:: cached: ',this.state.flagCached) ;
         let outRender = ( this.state.flagCached==true && this.state.flagValidBot==true )
                         ?   <WidgetChatbot
                                 configuration={{
                                     idAgent: this.state.idAgent ,
                                     options: this.state.options
                                 }}
-                                key="22"
+                                key="key-widget"
                                 launcher={this.state.launcher}
                                 widgetVisible={this.state.widgetVisible}
                                 backEndServer={this.state.backEndServer}
-                                onWindowOpen={this.props.onWindowOpen   ? this.props.onWindowOpen : ()=>{console.log('....windowOpen')}}
-                                onWindowClose={this.props.onWindowClose ? this.props.onWindowClose : ()=>{console.log('....windowClose')}}
+                                onWindowOpen={this.props.onWindowOpen}
+                                onWindowClose={this.props.onWindowClose}
                                 conversation={{
                                     idConversation: this.state.idConversation,
                                     chatlog: this.state.chatlog,
                                     chatEvents: this.state.chatEvents
                                 }}
                             />
-                        :   <div key="11" ></div> ;
+                        :   <div key="key-no-widget" ></div> ;
         //
         return ( outRender ) ;
         //

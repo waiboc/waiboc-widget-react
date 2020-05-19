@@ -9,11 +9,6 @@ export class ImageLoader extends React.Component {
         loaded: _loaded[this.props.src]
       };
       this.onLoad   = this.onLoad.bind(this)  ;
-      /*
-      if ( !this.props.className       ){ this.props.className=""; }
-      if ( !this.props.loadingClassName ){ this.props.loadingClassName=""; }
-      if ( !this.props.loadedClassName  ){ this.props.loadedClassName=""; }
-      */
   }
   //image onLoad handler to update state to loaded
   onLoad(){
@@ -23,15 +18,14 @@ export class ImageLoader extends React.Component {
   //
   render(){
     //
-    let { className, loadedClassName, loadingClassName, customStyle , altImg, ...props } = this.props;
+    let { className, wrapperImgClassName, wrapperTextClassName, loadedClassName, loadingClassName, customStyle , altImg, ...props } = this.props;
     className = `${className} ${this.state.loaded ? loadedClassName : loadingClassName}`;
     //
     let imgStyle = customStyle.img ? customStyle.img : {}  ;
-    console.log('...nnnnn') ;
     //
     return (
         <div style={{minHeight:'50px'}} key={this.props.src} >
-          <div style={{width:'100%'}}>
+          <div style={{width:'100%'}} className={wrapperImgClassName} >
               <img
                   style={imgStyle}
                   src={this.props.src}
@@ -42,7 +36,7 @@ export class ImageLoader extends React.Component {
                   alt={ this.props.alt ? this.props.alt : ""}
                   />
           </div>
-          <div style={{width:'100%'}}>
+          <div style={{width:'100%'}} className={wrapperTextClassName} >
             <span style={{width:'100%',...customStyle}}>{altImg}</span>
           </div>
         </div>

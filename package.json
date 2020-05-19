@@ -5,13 +5,11 @@
   "description": "Waiboc widget in react for chatbot",
   "main": "lib/index.js",
   "scripts": {
-    "build:npmDev": "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
-    "build:npm": "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
-    "build:prod": "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
-    "build:test": "webpack  --mode development --config ./build_config/webpack.react.widget.js",
+    "build:npmDev":   "SET    AMBIENTE=produccion && SET    URL_BACKEND=http://localhost:3001       && webpack  --mode production --config ./build_config/webpack.npm.js",
+    "build:npm":      "SET    AMBIENTE=produccion && SET    URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.npm.js",
+    "build:prod":     "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
+    "build:test":     "webpack  --mode development --config ./build_config/webpack.react.widget.js",
     "prepublishOnly": "npm run build:npm",
-    "start": "babel-node ./server/server.js",
-    "start:react": "webpack-dev-server  --config ./build_config/webpack.react.dev.js",
     "test:react-widget": "webpack-dev-server  --config ./build_config/webpack.react.widget.js"
   },
   "dependencies": {
@@ -20,7 +18,7 @@
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-export-namespace-from": "^7.2.0",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.0.0",
     "antd": "^3.25.0",
     "babel-core": "^6.26.3",
@@ -62,6 +60,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.1",

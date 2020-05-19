@@ -8,6 +8,8 @@ import { TableDynamic }                        from '../componentes/table/TableD
 import { MessageCarousel }                     from '../componentes/messages/MessageCarousel' ;
 import { CarouselImagenes }                    from '../componentes/image/CarouselImagenes'   ;
 //
+const log  = require('debug')('waiboc:parseAnswer') ;
+//
 const ReactRenderDynamic = (argProps) => {
     const subs = /(^.*)(\$(.*))/.exec(argProps.text);
     // console.log('....subs: ',subs) ;
@@ -53,7 +55,9 @@ const displayFileAlone = (elemFile,elemIdx) => {
                             <ImageLoader  key={elemIdx}
                                         src={elemFile.relativePath}
                                         altImg={elemFile.description||elemFile.name||''}
-                                        className="waiboc-slide-imag  "
+                                        className="waiboc-slide-imag"
+                                        wrapperImgClassName="waiboc-slide-wrapper-imag"
+                                        wrapperTextClassName="waiboc-slide-wrapper-text"
                                         loadingClassName="loading" loadedClassName=""
                                         customStyle={{img:{marginTop:'10px'}}}
                                         title={elemFile.name}
@@ -148,7 +152,7 @@ const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,setInputEdita
             if ( typeof setInputEditable=="function" ){
                 setInputEditable(false,'desde define options: argAnswer.options: '+JSON.stringify(argAnswer.options)) ;
             } else {
-                console.log('...no es funcion, que es?? setInputEditable:: ',setInputEditable) ;
+                log('...no es funcion, que es?? setInputEditable:: ',setInputEditable) ;
             }
         } else {
             return <div></div> ;
@@ -161,8 +165,7 @@ const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,setInputEdita
                                     <Tag    key={elemIdx} style={{marginTop:'5px'}}
                                             onClick={ (argEE)=>{
                                                 if ( argEE && argEE.preventDefault ){  argEE.preventDefault() ; }
-                                                // console.log('.....voy a cambiar setInputEditable despues de optionssss:: setInputEditable: ',setInputEditable) ;
-                                                console.log('....se ejecuta esta garomba ??') ,
+                                                log('....se ejecuta esta garomba ??') ,
                                                 setInputEditable(true,'desde click en tag: '+elemInner.label) ;
                                                 argOnClickOpcion(elemInner.value) ;
                                             }}
@@ -215,9 +218,9 @@ export const parseAnswer = ( argParams ) => {
             // console.log('\n\n ..(0) parseAnswer:: indArr: ',indArr,' type:: ',answerElem.type,' entity: ',JSON.stringify(answerElem) ) ;
             arrayOut.push(
                 <div key={indArr} >
-                    { parser( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }
-                    { parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }
+                    <div className="waiboc-widget-message-bot">{ parser( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
                     { parseFiles( answerElem, indArr ) }
+                    <div className="waiboc-widget-message-bot">{ parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
                 </div>
             ) ;
         }

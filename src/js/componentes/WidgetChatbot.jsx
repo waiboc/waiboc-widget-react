@@ -2,7 +2,6 @@
 *
 */
 import React, { Component }                                      from 'react'  ;
-import { Button }                                                from 'antd'   ;
 import { Widget, addResponseMessage, renderCustomComponent }     from 'react-chat-widget'    ;
 import { toggleMsgLoader, addUserMessage   }                     from 'react-chat-widget'    ;
 import { isWidgetOpened, toggleWidget, dropMessages }            from 'react-chat-widget'    ;
@@ -10,19 +9,18 @@ import { CustomReply  }                                          from './CustomR
 import { ButtonLauncher }                                        from './button/ButtonLauncher' ;
 import { api }                                                   from '../api/api' ;
 //
+if ( process.env.AMBIENTE!="produccion" ){ process.env.DEBUG="waiboc:*" ; } ;
+//
 import 'react-chat-widget/lib/styles.css' ;
 import '../../css/estiloChat.css' ;
 //
-//import logoSVG                                                   from '../../img/waiboc.logo.svg';
-//import WaibocIcon                 from '../../img/waiboc.icon.svg' ;
+const log  = require('debug')('waiboc:widgetChatbot') ;
 //
-// let flagInputDisable = true ;
 export class WidgetChatbot extends Component {
   constructor(props) {
     super(props) ;
     const { options }  = this.props.configuration ;
-    this.state                 = {
-      // flagInputDisable: true,
+    this.state         = {
       chatInitiated: false,
       chatOpen: false,
       prevWidgetVisible: true,
@@ -46,6 +44,21 @@ export class WidgetChatbot extends Component {
     this.mensajePrevio         = { input: { text: "" } } ;
     this.setRefWidgetDiv       = this.setRefWidgetDiv.bind(this) ;
     this.handleLauncher        = this.handleLauncher.bind(this)  ;
+    //
+    this.extraPropsWidget = {
+      launcher: this.state.launcher==false
+                  ? (launcher) => { <div></div> }
+                  : (launcher) => {
+                      return (
+                          <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >
+                            <ButtonLauncher effectIntervalTime={2000} imageLauncher={this.state.options.imageLauncher ? this.state.options.imageLauncher : "../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png"}  />
+                          </a>
+                        )
+                      }
+    } ;
+    //
+    log('*** WidgetChatbot:: constructor ****') ;
+    //
   }
   //
   static getDerivedStateFromProps(newProps, state) {
@@ -67,7 +80,7 @@ export class WidgetChatbot extends Component {
   componentDidMount(){
     try {
       //
-      // console.log('\n\n ....********* componentDidMount:: this.props.conversation.chatlog: ',this.props.conversation.chatlog.length) ;
+      log('.......WidgetChatlog:: componentDidMount:: this.props.conversation.chatlog: ',this.props.conversation.chatlog.length) ;
       if ( this.props.conversation.chatlog.length==0 ){
         dropMessages() ;
       } else {
@@ -101,6 +114,27 @@ export class WidgetChatbot extends Component {
       //
     } catch(errDM){
       console.dir(errDM) ;
+    }
+  }
+  //
+  componentDidUpdate(prevProps, prevState){
+    try {
+      log('....widgetChatbot:: componentDidUpdate:: prevState.launcher: ',prevState.launcher,' current: ',this.state.launcher) ;
+      if ( prevState.launcher!=this.state.launcher ){
+        this.extraPropsWidget = {
+          launcher: this.state.launcher==false
+                      ? (launcher) => { <div></div> }
+                      : (launcher) => {
+                          return (
+                              <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >
+                                <ButtonLauncher effectIntervalTime={2000} imageLauncher={this.state.options.imageLauncher ? this.state.options.imageLauncher : "../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png"}  />
+                              </a>
+                            )
+                          }
+        } ;
+      }
+    } catch(errDU){
+      console.log('.....errDU: ',errDU) ;
     }
   }
   //
@@ -226,7 +260,6 @@ export class WidgetChatbot extends Component {
     toggleMsgLoader();
     fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input: searchInNlp })
       .then((respBot)=>{
-        //console.log('\n\n******* handleNewUserMessage:: msg: ----> ',newMessage) ;
           renderCustomComponent( CustomReply.bind(this) ,
                     {
                       datos: respBot ,
@@ -235,7 +268,6 @@ export class WidgetChatbot extends Component {
                       addMsg:addResponseMessage.bind(this) ,
                       onOpen: this.chatOpenedHandler ,
                       onClose: this.chatClosedHandler ,
-                      // setInputEditable: this.setInputEditable.bind(this)
                       setInputEditable: ()=>{/* nada */}
                     }, false ) ;
           toggleMsgLoader();
@@ -249,18 +281,7 @@ export class WidgetChatbot extends Component {
   //
   render() {
     //
-    let extraPropsWidget = {
-      launcher: this.state.launcher==false
-                  ? (launcher) => { <div></div> }
-                  : (launcher) => {
-                      return (
-                          <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >
-                            <ButtonLauncher effectIntervalTime={2000} imageLauncher={this.state.options.imageLauncher ? this.state.options.imageLauncher : "../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png"}  />
-                          </a>
-                        )
-                      }
-    } ;
-    //
+    log('..........WidgetChatlog:: render:: this.props.conversation.chatlog: ',this.props.conversation.chatlog.length) ;
     return (
       <div id="waiboc-widget-main" ref={this.setRefWidgetDiv} >
           <Widget
@@ -271,17 +292,7 @@ export class WidgetChatbot extends Component {
             showCloseButton={this.state.showCloseButton}
             badge={this.state.pendientes}
             autofocus={true}
-            {...extraPropsWidget}
-            /*
-            launcher={ (launcher) => {
-                return (
-                    <a key="ll_key" onClick={()=>{this.handleLauncher(launcher)}} className="waiboc-btn-launcher" >
-                      <ButtonLauncher effectIntervalTime={2000} imageLauncher={this.state.options.imageLauncher ? this.state.options.imageLauncher : "../../../img/WAIBOC.LAUNCHER.TRANSPARENT.png"}  />
-                    </a>
-                  )
-                }
-            }
-            */
+            {...this.extraPropsWidget}
           />
       </div>
       )

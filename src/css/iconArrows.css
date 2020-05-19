@@ -1,6 +1,11 @@
 /*
 *
 */
+:root {
+    --MAX-HEIGH-WRAPPER-IMG: 250px ;
+    --BORDER-RADIO-IMG: 4px ;
+}
+/*  */
 .waiboc-carousel {
     margin-top: 5px ;
     margin-bottom: 5px ;
@@ -10,10 +15,24 @@
     width: 100% ;
     height: auto ;
 }
+.waiboc-carousel .waiboc-slide-panel .waiboc-slide-imag img {
+    border-radius: var(--BORDER-RADIO-IMG) ;
+}
+.waiboc-carousel .waiboc-slide-wrapper-imag {
+    max-height: var(--MAX-HEIGH-WRAPPER-IMG) ;
+    overflow-y: hidden ;
+}
+.waiboc-carousel .waiboc-slide-wrapper-text {
+    font-size: 20px ;
+    font-weight: 500 ;
+    padding: 3px ;
+    background-color: white ;
+    border-radius: 5px ;
+    
+}
 .waiboc-carousel .waiboc-slide-panel .description {
     position: relative ;
     display: block ;
-    /* bottom: 0px ; */
     width: 100% ;
     text-align: center ;
     font-size: 20px ;

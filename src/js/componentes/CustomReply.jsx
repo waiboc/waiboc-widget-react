@@ -42,8 +42,6 @@ export class CustomReply extends React.Component {
     wrapAnswer(elemOpt){
         try {
             //
-            //console.log('....estoy en wrapAnswer:: ') ;
-            let tempStyleMsg = {backgroundColor: '#E0E6E5',borderRadius: '10px',padding: '15px' } ;
             const { messageResponseStyle, timestamp } = this.props ;
             let tempStyle = messageResponseStyle ? messageResponseStyle : {} ;
             let tempTs    = moment( (timestamp ? timestamp : new Date()) ).tz( userTimeZone ).fromNow() ;
@@ -55,7 +53,7 @@ export class CustomReply extends React.Component {
                     {
                         (this.props.flagTimestamp && this.props.flagTimestamp!=false) ? <p style={{width:'100%',textAlign:'center'}}>{tempTs}</p> : null
                     }
-                    <div style={{...tempStyleMsg}}>{ outEle }</div>
+                    <div>{  outEle }</div>
                 </DivMessage>
                 ) ;
             //

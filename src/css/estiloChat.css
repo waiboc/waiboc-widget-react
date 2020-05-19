@@ -100,7 +100,8 @@
   background-color: var(--background-color-app) ;
 }
 .waiboc-chat-response-bot {
-  max-width: 90% ;
+  max-width: 95% ;
+  margin-left: 2.5% ;
 }
 .waiboc-launcher {
   transition: box-shadow 0.6s !important ;
@@ -144,6 +145,12 @@
 .waiboc-btn-launcher img {
   border: none ;
   background-color: transparent ;
+}
+.waiboc-widget-message-bot {
+  background-color: #E0E6E5 ;
+  border-radius: 10px ;
+  margin: 4px ;
+  padding: 8px ;
 }
 /*  */
 @media (max-width: 375px) {
