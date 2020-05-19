@@ -210,15 +210,17 @@ export const parseAnswer = ( argParams ) => {
         let arrayAnswers = Array.isArray(answer) ? answer : new Array(answer);
         for ( let indArr=0; indArr<arrayAnswers.length; indArr++ ){
             let answerElem = arrayAnswers[ indArr ] ;
+            /*
             let parser    = allParsers[ answerElem.type ] || false ;
             if ( parser==false ){
                 throw new Error('ERROR: Answer type "'+answerElem.type+'" is unknown. Answer:: '+JSON.stringify(answerElem)) ;
             }
+            */
             //
             // console.log('\n\n ..(0) parseAnswer:: indArr: ',indArr,' type:: ',answerElem.type,' entity: ',JSON.stringify(answerElem) ) ;
             arrayOut.push(
                 <div key={indArr} >
-                    <div className="waiboc-widget-message-bot">{ parser( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
+                    <div className="waiboc-widget-message-bot">{ parseText( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
                     { parseFiles( answerElem, indArr ) }
                     <div className="waiboc-widget-message-bot">{ parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
                 </div>
