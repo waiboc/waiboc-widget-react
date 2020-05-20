@@ -155,7 +155,7 @@ const parseOption   = (argAnswer,tempStyle,argKey,argOnClickOpcion,setInputEdita
                 log('...no es funcion, que es?? setInputEditable:: ',setInputEditable) ;
             }
         } else {
-            return <div></div> ;
+            return null ;
         }
         // <span>{<ReactRenderDynamic text={argAnswer.text} />}</span>
         outEle =    <div >
@@ -210,24 +210,24 @@ export const parseAnswer = ( argParams ) => {
         let arrayAnswers = Array.isArray(answer) ? answer : new Array(answer);
         for ( let indArr=0; indArr<arrayAnswers.length; indArr++ ){
             let answerElem = arrayAnswers[ indArr ] ;
-            /*
-            let parser    = allParsers[ answerElem.type ] || false ;
-            if ( parser==false ){
-                throw new Error('ERROR: Answer type "'+answerElem.type+'" is unknown. Answer:: '+JSON.stringify(answerElem)) ;
-            }
-            */
+            if ( !answerElem.options ){ answerElem.options=[]; }
             //
-            // console.log('\n\n ..(0) parseAnswer:: indArr: ',indArr,' type:: ',answerElem.type,' entity: ',JSON.stringify(answerElem) ) ;
             arrayOut.push(
                 <div key={indArr} >
-                    <div className="waiboc-widget-message-bot">{ parseText( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
+                    <div className="waiboc-widget-message-bot left-chat">{ parseText( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
                     { parseFiles( answerElem, indArr ) }
-                    <div className="waiboc-widget-message-bot">{ parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
+                    {
+                        answerElem.options.length>0
+                            ?   <div className="waiboc-widget-message-bot">{ parseOption( answerElem, customStyle, indArr, onClickOpcion, setInputEditable ) }</div>
+                            :   null
+                    }
                 </div>
             ) ;
+            //
         }
         //
         return arrayOut ;
+        //
     } catch(errPA){
         console.dir(errPA) ;
         throw errPA ;

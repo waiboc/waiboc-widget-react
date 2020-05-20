@@ -5,6 +5,10 @@
   --background-color-app: #002DFF ;
 }
 /*  */
+#waiboc-widget-main .rcw-messages-container {
+  height: 60vh ;
+  max-height: 550px ;
+}
 #waiboc-widget-main .rcw-message {
   font-size: 17px !important ;
   transition: color 0.4s ease-in, background-color 0.4s ease-in ;
@@ -56,7 +60,7 @@
   /*
   line-height: 160px !important ;
   */
-  background: #364d79 !important ;
+  /* background: #364d79 !important ; */
   overflow: hidden !important ;
 }
 #waiboc-widget-main .ant-carousel .slick-slide h3 {
@@ -98,10 +102,6 @@
 }
 #waiboc-widget-main .rcw-launcher {
   background-color: var(--background-color-app) ;
-}
-.waiboc-chat-response-bot {
-  max-width: 95% ;
-  margin-left: 2.5% ;
 }
 .waiboc-launcher {
   transition: box-shadow 0.6s !important ;
@@ -146,14 +146,54 @@
   border: none ;
   background-color: transparent ;
 }
+.waiboc-chat-response-bot {
+  max-width: 80% ;
+  margin-left: 2.5% ;
+}
 .waiboc-widget-message-bot {
   background-color: #E0E6E5 ;
   border-radius: 10px ;
   margin: 4px ;
   padding: 8px ;
 }
+.waiboc-widget-message-bot.left-chat {
+  /*
+  background: aqua !important;
+  min-width: 45% !important;
+  padding: 10px 15px !important;
+  border-radius: 6px !important;
+  border: 1px solid #ccc !important;
+  float: right !important ;
+  */
+  text-align: left !important;
+}
+.waiboc-widget-message-bot.left-chat::before {
+  content: '' !important ;
+  position: absolute !important ;
+  visibility: visible !important ;
+  top: -1px !important ;
+  left: -10px !important ;
+  border: 10px solid transparent !important ;
+  border-top: 10px /* solid #ccc !important */ ;
+}
+
+.waiboc-widget-message-bot.left-chat::after {
+  content: '';
+  position: absolute !important ;
+  visibility: visible !important ;
+  top: 0px !important ;
+  left: -8px !important ;
+  border: 10px solid transparent !important ;
+  border-top: 10px /* solid aqua !important */ ;
+  clear: both !important ;
+}
+
 /*  */
 @media (max-width: 375px) {
+  .waiboc-chat-response-bot {
+    max-width: 95% ;
+    margin-left: 2.5% ;
+  }
   #waiboc-widget-main .waiboc-msg-carousel {
     width: 330px ;
   }

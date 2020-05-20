@@ -107,7 +107,12 @@ export class WidgetChatbot extends Component {
         }
         toggleMsgLoader() ;
       }
-      //
+      /*
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = '#waiboc-widget-main .rcw-conversation-container .rcw-header { background-color: yellow; }';
+      document.getElementsByTagName('head')[0].appendChild(style);
+      */
       if ( this.state.launcher==false && isWidgetOpened()==false ){
         toggleWidget() ;
       }
