@@ -50,6 +50,7 @@ const chatbotInformation = (argOpt) => {
                         } ;
                         //
                         if ( respData.result.resultCode==PARAMETROS.RESULT_CODES.OK ){
+                            console.log('...respData.result: ',respData.result) ;
                             newState.flagValidBot    = true ;
                             newState.options = respData.result.options ? {...respData.result.options} : {...respData.result} ;
                             ls( PARAMETROS.SESSION.ID_CONVERSATION, respData.result.idConversation ) ;

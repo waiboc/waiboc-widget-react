@@ -19,7 +19,6 @@ const log  = require('debug')('waiboc:widgetChatbot') ;
 export class WidgetChatbot extends Component {
   constructor(props) {
     super(props) ;
-    const { options }  = this.props.configuration ;
     this.state         = {
       chatInitiated: false,
       chatOpen: false,
@@ -29,7 +28,9 @@ export class WidgetChatbot extends Component {
       launcher: this.props.launcher,
       showCloseButton: ( this.props.launcher!=false ),
       idConversation: this.props.conversation.idConversation,
-      options: options ? {...options} : {botName: '',botSubtitle: '',senderPlaceholder: ''},
+      options: ( this.props.configuration && this.props.configuration.options )
+                  ? {...this.props.configuration.options}
+                  : {botName: '',botSubtitle: '',senderPlaceholder: ''},
       systemDefinedIntents: []
     } ;
     this.state.options.nameToDisplay = this.state.options.nameToDisplay ? this.state.options.nameToDisplay : this.state.options.botName ;
@@ -80,7 +81,8 @@ export class WidgetChatbot extends Component {
   componentDidMount(){
     try {
       //
-      log('.......WidgetChatlog:: componentDidMount:: this.props.conversation.chatlog: ',this.props.conversation.chatlog.length) ;
+      log('.......WidgetChatlog:: componentDidMount:: this.state.options: ',this.state.options) ;
+      //
       if ( this.props.conversation.chatlog.length==0 ){
         dropMessages() ;
       } else {
@@ -190,9 +192,7 @@ export class WidgetChatbot extends Component {
         if ( this.props.conversation.chatlog.length==0 ){
           toggleMsgLoader() ;
           let onOpenChatAnswer = this.props.conversation.chatEvents.find((elemEvent)=>{ return elemEvent.name=="ON_OPEN_WIDGET" }) ;
-          //console.log('...onOpenChatAnswer: ',onOpenChatAnswer) ;
           if ( onOpenChatAnswer ){
-            console.log('....como si reien abriera el chat') ;;
             renderCustomComponent( CustomReply.bind(this) ,
             {
               datos: {answer:{output:{...onOpenChatAnswer.answer}}} ,
@@ -219,17 +219,6 @@ export class WidgetChatbot extends Component {
   //
   chatOpenedHandler(){
     if ( this.state.chatOpen!=true ){
-      // console.log('....openn:: this.props.conversation: ',this.props.conversation) ;
-      /*
-      if ( !this.props.conversation.chatlog || this.props.conversation.chatlog.length==0 ){
-        this.handleNewUserMessage( 'ON_OPEN_WIDGET' ) ;
-      }
-      */
-      /*
-      if ( this.props.onWindowOpen ){
-        this.props.onWindowOpen() ;
-      }
-      */
       this.setState({chatOpen: true, pendientes: 0}) ;
     }
   }
