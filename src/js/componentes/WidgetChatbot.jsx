@@ -83,6 +83,13 @@ export class WidgetChatbot extends Component {
       //
       log('.......WidgetChatlog:: componentDidMount:: this.state.options: ',this.state.options) ;
       //
+      if ( this.state.options.cssStyle && this.state.options.cssStyle.header ){
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `#waiboc-widget-main .rcw-conversation-container .rcw-header { background-color: ${this.state.options.cssStyle.header.backgroundColor} ; }`;
+        document.getElementsByTagName('head')[0].appendChild(style);
+      }
+      //
       if ( this.props.conversation.chatlog.length==0 ){
         dropMessages() ;
       } else {
@@ -109,12 +116,6 @@ export class WidgetChatbot extends Component {
         }
         toggleMsgLoader() ;
       }
-      /*
-      var style = document.createElement('style');
-      style.type = 'text/css';
-      style.innerHTML = '#waiboc-widget-main .rcw-conversation-container .rcw-header { background-color: yellow; }';
-      document.getElementsByTagName('head')[0].appendChild(style);
-      */
       if ( this.state.launcher==false && isWidgetOpened()==false ){
         toggleWidget() ;
       }
