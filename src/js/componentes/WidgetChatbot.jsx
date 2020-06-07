@@ -188,6 +188,9 @@ export class WidgetChatbot extends Component {
   //
   handleLauncher(argLauncher){
     try {
+      //
+      log('...handleLauncher:: this.state.chatInitiated: ',this.state.chatInitiated,' lll: ',this.props.conversation.chatlog.length);
+      //
       argLauncher() ;
       if ( this.state.chatInitiated==false ){
         if ( this.props.conversation.chatlog.length==0 ){
@@ -253,7 +256,7 @@ export class WidgetChatbot extends Component {
     let searchInNlp        = ( typeof newMessage=="object" ) ? newMessage : { text: newMessage } ;
     //
     toggleMsgLoader();
-    fetchChatbot({idAgente: this.props.configuration.idAgent,_id: this.state.idConversation,input: searchInNlp })
+    fetchChatbot({idAgente: this.props.configuration.idAgent, idConversation: this.state.idConversation, _id: this.state.idConversation,input: searchInNlp })
       .then((respBot)=>{
           renderCustomComponent( CustomReply.bind(this) ,
                     {

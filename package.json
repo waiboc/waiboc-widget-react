@@ -10,7 +10,7 @@
     "build:prod": "export AMBIENTE=produccion && export URL_BACKEND=https://www.waiboc.com:3001 && webpack  --mode production --config ./build_config/webpack.react.prod.js",
     "build:test": "webpack  --mode development --config ./build_config/webpack.react.widget.js",
     "prepublishOnly": "npm run build:npm",
-    "test:react-widget": "webpack-dev-server  --config ./build_config/webpack.react.widget.js"
+    "test:widget":    "webpack-dev-server  --config ./build_config/webpack.react.widget.js"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
