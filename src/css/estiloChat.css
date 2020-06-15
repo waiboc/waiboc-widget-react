@@ -28,7 +28,7 @@
 }
 /*    */
 #waiboc-widget-main .rcw-widget-container {
-    z-index: 9999 !important ;
+    z-index: 99999 !important ;
     max-width: 450px !important ;
     display: inline-block ;
 }
