@@ -3,17 +3,20 @@
 */
 import React                                   from 'react' ;
 import jstz                                    from '../libs/jstz.min.js'
-import moment                                  from 'moment-timezone';
+// import moment                                  from 'moment-timezone';
+import dayjs                                   from "dayjs" ;
 import { parseAnswer  }                        from '../utils/parseAnswer'  ;
 import { DivMessage  }                         from './messages/DivMessage' ;
 //
 import 'antd/dist/antd.css';
 //
-let userTimeZone = jstz.determine().name() ;
-/*
-let tempLang     = navigator.language || navigator.languages[0] || 'es' ;
-moment.locale(tempLang) ;
-*/
+const userTimeZone = jstz.determine().name() ;
+const relativeTime = require('dayjs/plugin/relativeTime') ;
+const tempLang     = navigator.language || navigator.languages[0] || 'es' ;
+console.log('...tempLang: ',tempLang) ;
+//
+dayjs.extend(relativeTime)
+dayjs.tempLang( tempLang ) ;
 //
 export class CustomReply extends React.Component {
     constructor(props){
@@ -43,8 +46,10 @@ export class CustomReply extends React.Component {
         try {
             //
             const { messageResponseStyle, timestamp } = this.props ;
-            let tempStyle = messageResponseStyle ? messageResponseStyle : {} ;
-            let tempTs    = moment( (timestamp ? timestamp : new Date()) ).tz( userTimeZone ).fromNow() ;
+            let tempStyle = messageResponseStyle ? messageResponseStyle : {}  ;
+            // let tempTs    = moment( (timestamp ? timestamp : new Date()) ).tz( userTimeZone ).fromNow() ;
+            let tempTs    = dayjs( (timestamp ? timestamp : new Date()) ).fromNow() ;
+            console.log('...tempTs: ',tempTs) ;
             //
             let outEle = parseAnswer( {answer: elemOpt, customStyle: tempStyle, onClickOpcion: this.props.onClickOpcion ,setInputEditable:(this.props.setInputEditable ? this.props.setInputEditable : null)} ) ;
             //

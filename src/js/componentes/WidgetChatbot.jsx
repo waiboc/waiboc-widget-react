@@ -24,6 +24,7 @@ export class WidgetChatbot extends Component {
       chatOpen: false,
       prevWidgetVisible: true,
       widgetVisible: true ,
+      flagDisplayTimestamp: false,
       pendientes: 1,
       launcher: this.props.launcher,
       showCloseButton: ( this.props.launcher!=false ),
@@ -67,6 +68,9 @@ export class WidgetChatbot extends Component {
     if ( newProps.widgetVisible!=state.widgetVisible ){
       newStateProps["prevWidgetVisible"] = state.widgetVisible ;
       newStateProps["widgetVisible"]     = newProps.widgetVisible ;
+      if ( newProps.flagDisplayTimestamp ){
+        newStateProps.flagDisplayTimestamp = newProps.flagDisplayTimestamp ;
+      }
     }
     if ( newProps.options && JSON.stringify(newProps.options)!=JSON.stringify(state.options) ){
       newStateProps["options"] = newProps.options ;
@@ -105,6 +109,7 @@ export class WidgetChatbot extends Component {
                                 {
                                   datos: objConv.answer ,
                                   timestamp: objConv.ts,
+                                  flagTimestamp: this.state.flagDisplayTimestamp ,
                                   onClickOpcion:this.onClickOpcion.bind(this),
                                   addMsg: addResponseMessage.bind(this) ,
                                   windowStyle: this.props.configuration.windowStyle,
@@ -200,6 +205,7 @@ export class WidgetChatbot extends Component {
             renderCustomComponent( CustomReply.bind(this) ,
             {
               datos: {answer:{output:{...onOpenChatAnswer.answer}}} ,
+              flagTimestamp: this.state.flagDisplayTimestamp ,
               onClickOpcion:this.onClickOpcion.bind(this) ,
               windowStyle: this.props.configuration.windowStyle,
               addMsg: addResponseMessage.bind(this) ,
@@ -261,6 +267,7 @@ export class WidgetChatbot extends Component {
           renderCustomComponent( CustomReply.bind(this) ,
                     {
                       datos: respBot ,
+                      flagTimestamp: this.state.flagDisplayTimestamp ,
                       onClickOpcion:this.onClickOpcion.bind(this) ,
                       windowStyle: this.props.configuration.windowStyle,
                       addMsg:addResponseMessage.bind(this) ,

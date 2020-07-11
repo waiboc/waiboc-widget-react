@@ -5,7 +5,8 @@ const path                        = require('path')    ;
 const webpack                     = require("webpack") ;
 const CompressionPlugin           = require('compression-webpack-plugin') ;
 const BrotliPlugin                = require('brotli-webpack-plugin')      ;
-//const CleanWebpackPlugin          = require('clean-webpack-plugin')       ;
+const BundleAnalyzerPlugin        = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+//const CleanWebpackPlugin          = require('clean-webpack-plugin')      ;
 //
 let tempURLbackend = process.env.URL_BACKEND ? process.env.URL_BACKEND : "http://localhost:3001" ;
 if ( tempURLbackend.substr((tempURLbackend.length-1),1)=="/"){ tempURLbackend=tempURLbackend.substr(0,(tempURLbackend.length-1)); }
@@ -85,6 +86,7 @@ module.exports = {
   },
   plugins: [
     // new CleanWebpackPlugin(['../lib']) ,
+    new BundleAnalyzerPlugin() ,
     new webpack.DefinePlugin({
       '__URL_BACKEND__': JSON.stringify(tempURLbackend)
     }),
